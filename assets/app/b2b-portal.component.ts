@@ -1,9 +1,9 @@
 import {Component} from 'angular2/core';
 import {ROUTER_DIRECTIVES, RouteConfig, Router} from "angular2/router";
-import {GoodsComponent} from "./goods.component";
-import {OrdersComponent} from "./orders.component";
-import {UserInfoComponent} from "./user-info.component";
-import {ContactsComponent} from "./contacts.component";
+import {GoodsComponent} from "./goods/goods.component";
+import {OrderListComponent} from "./orders/order-list.component";
+import {UserInfoComponent} from "./users/user-info.component";
+import {ContactsComponent} from "./contacts/contacts.component";
 
 @Component({
     selector: 'b2b-portal',
@@ -36,7 +36,7 @@ import {ContactsComponent} from "./contacts.component";
                                     <ul class="nav navbar-nav">
                         -->
                         <li>
-                            <a [routerLink]="['Orders']">Состояние заказа</a>
+                            <a [routerLink]="['OrderList']">Заказы</a>
                         </li>
                         <li>
                             <a [routerLink]="['UserInfo']">Информация о пользователе</a>
@@ -63,15 +63,17 @@ import {ContactsComponent} from "./contacts.component";
             </div>
         </nav>
         
-        <div>
-            <router-outlet></router-outlet>
+        <div class="row">
+            <div class="col-md-12">
+                <router-outlet></router-outlet>
+            </div>
         </div>
     `,
     directives: [ROUTER_DIRECTIVES]
 })
 @RouteConfig([
     {path: '/goods', name: 'Goods', component: GoodsComponent, useAsDefault: true},
-    {path: '/orders', name: 'Orders', component: OrdersComponent},
+    {path: '/order-list', name: 'OrderList', component: OrderListComponent},
     {path: '/user-info', name: 'UserInfo', component: UserInfoComponent},
     {path: '/contacts', name: 'Contacts', component: ContactsComponent},
 ])
