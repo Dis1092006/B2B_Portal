@@ -1,7 +1,7 @@
-import {Component} from "angular2/core";
+import {Component, OnInit} from "angular2/core";
 import {OrderComponent} from "./order.component";
 import {Order} from "./order";
-import {OrderItem} from "./order-item";
+import {OrderService} from "./order.service";
 
 @Component({
     selector: 'order-list',
@@ -12,13 +12,14 @@ import {OrderItem} from "./order-item";
     `,
     directives: [OrderComponent]
 })
-export class OrderListComponent {
-    orders: Order[] = [];
+export class OrderListComponent implements OnInit {
+    orders: Order[];
 
-    constructor() {
-        this.orders.push(new Order('1'));
-        this.orders[0].items.push(new OrderItem('code 111', 'Item Name 1', 1, 100, 100, 3, 90));
-        this.orders.push(new Order('2'));
+    constructor(private _orderServise : OrderService){
+    }
+
+    ngOnInit() {
+        this.orders = this._orderServise.getOrders();
     }
 
     onEditClick(order_event) {

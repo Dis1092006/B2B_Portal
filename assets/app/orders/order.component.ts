@@ -10,7 +10,7 @@ import {Order} from "./order";
                     <a aria-expanded="true" data-toggle="collapse" href="#collapse{{order.number}}">
                         Заказ №{{order.number}} от 25.03.2016. Корниенко М.В. ИП. Батайск. Сумма:127&nbsp;450. Количество:21
                     </a>
-                    <a aria-expanded="true" class="pull-right" data-toggle="collapse" href="#" (click)="onClick()">
+                    <a aria-expanded="true" class="pull-right" data-toggle="collapse" href="#" (click)="onEditOrder()">
                         <span class="glyphicon glyphicon-usd">Изменить заказ</span>
                     </a>
                 </h4>
@@ -37,7 +37,7 @@ import {Order} from "./order";
                                 <td>{{item.amount}}</td>
                                 <td>{{(item.volume * item.count).toFixed(4)}}</td>
                                 <td>{{item.preferred_price}}</td>
-                                <td><span class="glyphicon glyphicon-remove"></span></td>
+                                <td><a (click)="onDeleteItem()"><span class="glyphicon glyphicon-remove"></span></a></td>
                             </tr>
                         </tbody>
                         <tfoot>
@@ -64,7 +64,11 @@ export class OrderComponent {
     total_amount: number = 0;
     total_volume: number = 0;
 
-    onClick() {
+    onEditOrder() {
         this.editClicked.emit('Edit');
+    }
+
+    onDeleteItem() {
+
     }
 }

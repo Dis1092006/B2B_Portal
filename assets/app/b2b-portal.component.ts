@@ -4,6 +4,7 @@ import {GoodsComponent} from "./goods/goods.component";
 import {OrderListComponent} from "./orders/order-list.component";
 import {UserInfoComponent} from "./users/user-info.component";
 import {ContactsComponent} from "./contacts/contacts.component";
+import {BasketComponent} from "./orders/basket.component";
 
 @Component({
     selector: 'b2b-portal',
@@ -52,8 +53,8 @@ import {ContactsComponent} from "./contacts/contacts.component";
                         Выйти
                     </button>
                     <ul class="nav navbar-nav navbar-right">
-                        <li class="disabled">
-                            <a href="#" id="basket"><span class="glyphicon glyphicon-shopping-cart"></span></a>
+                        <li>
+                            <a [routerLink]="['Basket']"><span class="glyphicon glyphicon-shopping-cart"></span></a>
                         </li>
                         <li>
                             <a id="login-text"></a>
@@ -76,6 +77,7 @@ import {ContactsComponent} from "./contacts/contacts.component";
     {path: '/order-list', name: 'OrderList', component: OrderListComponent},
     {path: '/user-info', name: 'UserInfo', component: UserInfoComponent},
     {path: '/contacts', name: 'Contacts', component: ContactsComponent},
+    {path: '/basket', name: 'Basket', component: BasketComponent},
 ])
 export class B2BPortalComponent {
 
