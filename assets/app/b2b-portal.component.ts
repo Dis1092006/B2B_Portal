@@ -1,6 +1,6 @@
 import {Component} from 'angular2/core';
 import {ROUTER_DIRECTIVES, RouteConfig, Router} from "angular2/router";
-import {GoodsComponent} from "./goods/goods.component";
+import {GoodsComponent} from "./goods/goods-list.component";
 import {OrderListComponent} from "./orders/order-list.component";
 import {UserInfoComponent} from "./users/user-info.component";
 import {ContactsComponent} from "./contacts/contacts.component";
