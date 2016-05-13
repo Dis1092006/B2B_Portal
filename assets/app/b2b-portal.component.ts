@@ -1,5 +1,5 @@
-import {Component} from 'angular2/core';
-import {ROUTER_DIRECTIVES, RouteConfig, Router} from "angular2/router";
+import {Component} from '@angular/core';
+import {ROUTER_DIRECTIVES, Routes, Router} from "@angular/router";
 import {GoodsComponent} from "./goods/goods-list.component";
 import {OrderListComponent} from "./orders/order-list.component";
 import {UserInfoComponent} from "./users/user-info.component";
@@ -24,7 +24,7 @@ import {BasketComponent} from "./orders/basket.component";
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav">
                         <li>
-                            <a [routerLink]="['Goods']">Товары</a>
+                            <a [routerLink]="['goods']">Товары</a>
                         </li>
                         <!--
                                     </ul>
@@ -37,13 +37,13 @@ import {BasketComponent} from "./orders/basket.component";
                                     <ul class="nav navbar-nav">
                         -->
                         <li>
-                            <a [routerLink]="['OrderList']">Заказы</a>
+                            <a [routerLink]="['order-list']">Заказы</a>
                         </li>
                         <li>
-                            <a [routerLink]="['UserInfo']">Информация о пользователе</a>
+                            <a [routerLink]="['user-info']">Информация о пользователе</a>
                         </li>
                         <li>
-                            <a [routerLink]="['Contacts']">Контакты</a>
+                            <a [routerLink]="['contacts']">Контакты</a>
                         </li>
                     </ul>
                     <button id="enter" type="button" class="navbar-right btn btn-default b2b_btn_enter" data-toggle="modal"
@@ -54,7 +54,7 @@ import {BasketComponent} from "./orders/basket.component";
                     </button>
                     <ul class="nav navbar-nav navbar-right">
                         <li>
-                            <a [routerLink]="['Basket']"><span class="glyphicon glyphicon-shopping-cart"></span></a>
+                            <a [routerLink]="['basket']"><span class="glyphicon glyphicon-shopping-cart"></span></a>
                         </li>
                         <li>
                             <a id="login-text"></a>
@@ -72,12 +72,12 @@ import {BasketComponent} from "./orders/basket.component";
     `,
     directives: [ROUTER_DIRECTIVES]
 })
-@RouteConfig([
-    {path: '/goods', name: 'Goods', component: GoodsComponent, useAsDefault: true},
-    {path: '/order-list', name: 'OrderList', component: OrderListComponent},
-    {path: '/user-info', name: 'UserInfo', component: UserInfoComponent},
-    {path: '/contacts', name: 'Contacts', component: ContactsComponent},
-    {path: '/basket', name: 'Basket', component: BasketComponent},
+@Routes([
+    {path: '/goods', component: GoodsComponent},
+    {path: '/order-list', component: OrderListComponent},
+    {path: '/user-info', component: UserInfoComponent},
+    {path: '/contacts', component: ContactsComponent},
+    {path: '/basket', component: BasketComponent},
 ])
 export class B2BPortalComponent {
 

@@ -1,4 +1,4 @@
-import {Component, Input, Output, EventEmitter} from "angular2/core";
+import {Component, Input, Output, EventEmitter} from "@angular/core";
 import {Order} from "./order";
 
 @Component({
@@ -30,7 +30,7 @@ import {Order} from "./order";
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="#item of order.items">
+                            <tr *ngFor="let item of order.items">
                                 <td>{{item.name}}</td>
                                 <td>{{item.count}}</td>
                                 <td>{{item.price}}</td>

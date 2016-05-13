@@ -1,4 +1,4 @@
-import {Component, OnInit} from "angular2/core";
+import {Component, OnInit} from "@angular/core";
 import {OrderComponent} from "./order.component";
 import {Order} from "./order";
 import {OrderService} from "./order.service";
@@ -7,7 +7,7 @@ import {OrderService} from "./order.service";
     selector: 'order-list',
     template: `
         <div class="panel-group" id="panel-group-orders">
-            <order *ngFor="#order of orders" [order]="order" (editClicked)="onEditClick($event)"></order>
+            <order *ngFor="let order of orders" [order]="order" (editClicked)="onEditClick($event)"></order>
         </div>
     `,
     directives: [OrderComponent]
