@@ -1,10 +1,11 @@
 import {Component, OnInit} from "@angular/core";
 import {GoodsItem} from "./goods-item";
 import {GoodsService} from "./goods.service";
+import {BasketService} from "../orders/basket.service";
 
 @Component({
-    selector: 'goods-list',
-    template: `
+	selector: 'goods-list',
+	template: `
         <div class="panel panel-default">
             <table id="tree-table-goods" class="table table-bordered table-condensed">
                 <thead>
@@ -25,7 +26,7 @@ import {GoodsService} from "./goods.service";
                         <td>{{item.volume}}</td>
                         <td><abbr title="{{item.description}}">описание</abbr></td>
                         <td><input type="text" value="1" size="5"></td>
-                        <td><a class="basket-picture"><span class="glyphicon glyphicon-arrow-right"></span></a></td>
+                        <td><a (click)="onAddToBasket(item)" class="basket-picture"><span class="glyphicon glyphicon-arrow-right"></span></a></td>
                         <td>item_count_in_basket</td>
                     </tr>
                 </tbody>
@@ -34,12 +35,16 @@ import {GoodsService} from "./goods.service";
     `
 })
 export class GoodsComponent implements OnInit {
-    goods: GoodsItem[];
+	goods: GoodsItem[];
 
-    constructor(private _goodsServise : GoodsService){
-    }
+	constructor(private _goodsService: GoodsService, private _basketService: BasketService) {
+	}
 
-    ngOnInit() {
-        this.goods = this._goodsServise.getGoods();
-    }
+	ngOnInit() {
+		this.goods = this._goodsService.getGoods();
+	}
+
+	onAddToBasket(item: GoodsItem) {
+		this._basketService.addItem(item);
+	}
 }

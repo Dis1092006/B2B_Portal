@@ -1,9 +1,11 @@
-import {Component, Input, Output, EventEmitter} from "@angular/core";
+import {Component, OnInit, Input, Output, EventEmitter} from "@angular/core";
 import {Order} from "./order";
 import {OrderService} from "./order.service";
+import {OrderItem} from "./order-item";
+import {BasketService} from "./basket.service";
 
 @Component({
-    selector: 'order',
+    selector: 'basket',
     template: `
         <div class="panel panel-default">
 		    <div class="panel-heading">Клиент</div>
@@ -41,17 +43,19 @@ import {OrderService} from "./order.service";
 								<th class="row-cost">Сумма</th>
 								<th class="row-cost">Объем</th>
 								<th class="row-cost">Желаемая цена</th>
+								<th>Удалить</th>
 							</tr>
 							</thead>
 							<tbody>
-							<tr>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td><a href="#" data-pk="1"></a></td>
-							</tr>
+							<tr *ngFor="let item of items">
+                                <td>{{item.name}}</td>
+                                <td>{{item.count}}</td>
+                                <td>{{item.price}}</td>
+                                <td>{{item.getAmount()}}</td>
+                                <td>{{(item.volume * item.count).toFixed(4)}}</td>
+                                <td>{{item.preferred_price}}</td>
+                                <td><a (click)="onDeleteItem(item)"><span class="glyphicon glyphicon-remove"></span></a></td>
+                            </tr>
 							</tbody>
 						</table>
 						<!--
@@ -63,15 +67,24 @@ import {OrderService} from "./order.service";
 			</div>
     `
 })
-export class BasketComponent {
+export class BasketComponent implements OnInit {
     @Input() order: Order;
+    items: OrderItem[];
 
-    constructor(private _orderServise : OrderService) {
+    constructor(private _orderService : OrderService, private _basketService : BasketService) {
 
     }
 
+    ngOnInit() {
+        this.items = this._basketService.getItems();
+    }
+
+	onDeleteItem(item) {
+		this._basketService.deleteItem(item);
+	}
+
     onClick() {
         console.log('Make order');
-        this._orderServise.addOrder(this.order);
+        this._orderService.addOrder(this.order);
     }
 }
