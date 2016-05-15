@@ -26,8 +26,8 @@ import {BasketService} from "../orders/basket.service";
                         <td>{{item.volume}}</td>
                         <td><abbr title="{{item.description}}">описание</abbr></td>
                         <td><input type="text" value="1" size="5"></td>
-                        <td><a (click)="onAddToBasket(item)" class="basket-picture"><span class="glyphicon glyphicon-arrow-right"></span></a></td>
-                        <td>item_count_in_basket</td>
+                        <td><a (click)="onAddToBasket(item, 1)" class="basket-picture"><span class="glyphicon glyphicon-arrow-right"></span></a></td>
+                        <td>{{_basketService.countOfItem(item.code)}}</td>
                     </tr>
                 </tbody>
             </table>
@@ -44,7 +44,7 @@ export class GoodsComponent implements OnInit {
 		this.goods = this._goodsService.getGoods();
 	}
 
-	onAddToBasket(item: GoodsItem) {
-		this._basketService.addItem(item);
+	onAddToBasket(item: GoodsItem, count: number) {
+		this._basketService.addItem(item, count);
 	}
 }

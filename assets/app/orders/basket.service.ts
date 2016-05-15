@@ -13,16 +13,21 @@ export class BasketService {
 		return this.basket.getItems();
 	}
 
-	addItem(goodsItem: GoodsItem) {
-		let orderItem = new OrderItem(
-			goodsItem.code,
-			goodsItem.name,
-			1,
-			goodsItem.price,
-			goodsItem.volume,
-			goodsItem.price
-		);
-		this.basket.addItem(orderItem);
+	addItem(goodsItem: GoodsItem, count: number) {
+		let orderItem = this.basket.getItem(goodsItem.code);
+		if (orderItem) {
+			orderItem.count += count;
+		} else {
+			orderItem = new OrderItem(
+				goodsItem.code,
+				goodsItem.name,
+				count,
+				goodsItem.price,
+				goodsItem.volume,
+				goodsItem.price
+			);
+			this.basket.addItem(orderItem);
+		}
 	}
 
 	editItem(item: OrderItem) {
@@ -31,5 +36,16 @@ export class BasketService {
 
 	deleteItem(item: OrderItem) {
 		this.basket.deleteItem(item);
+	}
+
+	countOfItem(itemCode: string) {
+		let count = 0;
+		this.basket.getItems().forEach(
+			item => {
+			if (item.code === itemCode) {
+				count += item.count;
+			}
+		});
+		return count;
 	}
 }
