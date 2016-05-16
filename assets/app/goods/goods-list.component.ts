@@ -34,14 +34,22 @@ import {BasketService} from "../orders/basket.service";
         </div>
     `
 })
-export class GoodsComponent implements OnInit {
+export class GoodsListComponent implements OnInit {
 	goods: GoodsItem[];
 
 	constructor(private _goodsService: GoodsService, private _basketService: BasketService) {
 	}
 
 	ngOnInit() {
-		this.goods = this._goodsService.getGoods();
+		//this.goods = this._goodsService.getGoods();
+		console.log("GoodsListComponent.ngOnInit");
+		this._goodsService.getGoods()
+			.subscribe(
+				goods => {
+					this.goods = goods;
+					this._goodsService.goods = goods;
+				}
+			);
 	}
 
 	onAddToBasket(item: GoodsItem, count: number) {

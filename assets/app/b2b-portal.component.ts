@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {ROUTER_DIRECTIVES, Routes, Router} from "@angular/router";
 import {HeaderComponent} from "./header.component";
-import {GoodsComponent} from "./goods/goods-list.component";
+import {GoodsListComponent} from "./goods/goods-list.component";
 import {OrderListComponent} from "./orders/order-list.component";
 import {UserInfoComponent} from "./users/user-info.component";
 import {ContactsComponent} from "./contacts/contacts.component";
@@ -23,7 +23,7 @@ import {LogoutComponent} from "./auth/logout.component";
     directives: [ROUTER_DIRECTIVES, HeaderComponent]
 })
 @Routes([
-    {path: '/goods', component: GoodsComponent},
+    {path: '/goods', component: GoodsListComponent},
     {path: '/order-list', component: OrderListComponent},
     {path: '/user-info', component: UserInfoComponent},
     {path: '/contacts', component: ContactsComponent},

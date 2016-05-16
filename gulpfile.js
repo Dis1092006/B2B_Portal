@@ -37,6 +37,10 @@ gulp.task('vendor', function() {
     gulp.src('node_modules/@angular/**')
         .pipe(gulp.dest(vendor + '/@angular'));
 
+    //bootstrap
+    gulp.src('node_modules/bootstrap/dist/**')
+        .pipe(gulp.dest(vendor + '/bootstrap/'));
+
     //ES6 Shim
     gulp.src('node_modules/es6-shim/**')
         .pipe(gulp.dest(vendor + '/es6-shim/'));
