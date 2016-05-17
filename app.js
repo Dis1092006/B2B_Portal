@@ -10,6 +10,9 @@ var goodsRoutes = require('./routes/goods');
 
 var app = express();
 
+// Временно, для отладки.
+cors = require('cors');
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
@@ -27,6 +30,9 @@ app.use(function(req, res, next) {
     res.setHeader('Access-Control-Allow-Methods', 'POST, GET, PATCH, DELETE');
     next();
 });
+
+// Временно, для отладки.
+app.use(cors());
 
 app.use('/goods', goodsRoutes);
 app.use('/', appRoutes);

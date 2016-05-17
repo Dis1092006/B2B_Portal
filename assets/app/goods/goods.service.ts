@@ -21,8 +21,12 @@ export class GoodsService {
         return this._http.get('http://localhost:3000/goods')
 	        .map(response => {
 		        const data = response.json().obj;
+		        console.log("data: " + JSON.stringify(data));
+		        console.log("data.length = " + data.length);
+		        console.log("typeof(data) = " + typeof(data));
 		        let objs: any[] = [];
 		        for (let i = 0; i < data.length; i++) {
+			        console.log("data[i]: " + JSON.stringify(data[i]));
 			        let goodsItem = new GoodsItem(
 				        data[i]["Код"],
 				        0,
