@@ -1,5 +1,8 @@
+import {Injectable} from "@angular/core";
 import {Order} from "./order";
 import {OrderItem} from "./order-item";
+
+@Injectable()
 export class OrderService {
     orders: Order[] = [];
 

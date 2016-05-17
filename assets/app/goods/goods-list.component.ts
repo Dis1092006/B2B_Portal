@@ -21,7 +21,7 @@ import {BasketService} from "../orders/basket.service";
                 </thead>
                 <tbody>
                     <tr *ngFor="let item of goods">
-                        <td style="{{'padding-left:' + (5 + item.level * 15) + 'px'}}">{{item.name}}</td>
+                        <td [ngStyle]="{'padding-left': (5 + item.level * 15) + 'px'}">{{item.name}}</td>
                         <td>{{item.price}}</td>
                         <td>{{item.volume}}</td>
                         <td><abbr title="{{item.description}}">описание</abbr></td>

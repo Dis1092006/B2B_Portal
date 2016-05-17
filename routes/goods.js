@@ -10,8 +10,8 @@ router.get('/', function(req, res, next) {
 		'',
 		function (data, status, req) {
 			//var resultText = $(data.responseText).find("faultstring").html();
-			var dataText = data.replace('/\r\n/g', '');
-			var xmlData = new XmlDocument(dataText);
+			//var dataText = data.replace('/\r\n/g', '');
+			var xmlData = new XmlDocument(data);
 			var resultText = xmlData.valueWithPath('soap:Body.soap:Reason.soap:Text');
 			return res.status(status).json({
 				title: 'Ошибка!',
