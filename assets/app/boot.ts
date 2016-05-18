@@ -5,8 +5,9 @@ import {HTTP_PROVIDERS} from "@angular/http";
 import {ROUTER_PROVIDERS} from "@angular/router";
 import {HashLocationStrategy, LocationStrategy} from "@angular/common";
 import {B2BPortalComponent} from "./b2b-portal.component";
-import {OrderService} from "./orders/order.service";
+import {AuthService} from "./auth/auth.service";
 import {GoodsService} from "./goods/goods.service";
+import {OrderService} from "./orders/order.service";
 import {BasketService} from "./orders/basket.service";
 
-bootstrap(B2BPortalComponent, [ROUTER_PROVIDERS, HTTP_PROVIDERS, provide(LocationStrategy, {useClass: HashLocationStrategy}), GoodsService, OrderService, BasketService]);
+bootstrap(B2BPortalComponent, [ROUTER_PROVIDERS, HTTP_PROVIDERS, provide(LocationStrategy, {useClass: HashLocationStrategy}), AuthService, GoodsService, OrderService, BasketService]);
