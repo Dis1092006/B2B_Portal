@@ -11,7 +11,8 @@ export class GoodsService {
     constructor(private _http: Http) { }
 
     getGoods() {
-        return this._http.get('https://torg-b2b.ru/Portal_TEST/goods')
+		const token = localStorage.getItem('token') ? '?token=' + localStorage.getItem('token') : '';
+        return this._http.get('https://torg-b2b.ru/Portal_TEST/goods' + token)
 	        .map(response => {
 		        const data = JSON.parse(response.json().obj);
 		        let goods: any[] = [];
