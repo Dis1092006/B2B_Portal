@@ -2,6 +2,7 @@ import {Component, OnInit} from "@angular/core";
 import {GoodsItem} from "./goods-item";
 import {GoodsService} from "./goods.service";
 import {BasketService} from "../orders/basket.service";
+import {ErrorService} from "../errors/error.service";
 
 @Component({
 	selector: 'goods-list',
@@ -37,7 +38,7 @@ import {BasketService} from "../orders/basket.service";
 export class GoodsListComponent implements OnInit {
 	goods: GoodsItem[];
 
-	constructor(private _goodsService: GoodsService, private _basketService: BasketService) {
+	constructor(private _goodsService: GoodsService, private _basketService: BasketService, private _errorService: ErrorService) {
 	}
 
 	ngOnInit() {
@@ -48,7 +49,8 @@ export class GoodsListComponent implements OnInit {
 				goods => {
 					this.goods = goods;
 					this._goodsService.goods = goods;
-				}
+				},
+				error => this._errorService.handleError(error)
 			);
 	}
 

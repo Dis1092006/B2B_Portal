@@ -6,9 +6,9 @@ import {OrderListComponent} from "./orders/order-list.component";
 import {UserInfoComponent} from "./users/user-info.component";
 import {ContactsComponent} from "./contacts/contacts.component";
 import {BasketComponent} from "./orders/basket.component";
-import {AuthenticationComponent} from "./auth/authentication.component";
 import {LoginComponent} from "./auth/login.component";
 import {LogoutComponent} from "./auth/logout.component";
+import {ErrorComponent} from "./errors/error.component";
 
 @Component({
     selector: 'b2b-portal',
@@ -19,8 +19,9 @@ import {LogoutComponent} from "./auth/logout.component";
                 <router-outlet></router-outlet>
             </div>
         </div>
+        <b2b-error></b2b-error>
     `,
-    directives: [ROUTER_DIRECTIVES, HeaderComponent]
+    directives: [ROUTER_DIRECTIVES, HeaderComponent, ErrorComponent]
 })
 @Routes([
     {path: '/goods', component: GoodsListComponent},
@@ -28,7 +29,6 @@ import {LogoutComponent} from "./auth/logout.component";
     {path: '/user-info', component: UserInfoComponent},
     {path: '/contacts', component: ContactsComponent},
     {path: '/basket', component: BasketComponent},
-    {path: '/auth', component: AuthenticationComponent},
     {path: '/login', component: LoginComponent},
     {path: '/logout', component: LogoutComponent}
 ])

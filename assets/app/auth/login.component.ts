@@ -3,6 +3,7 @@ import {ControlGroup, FormBuilder, Validators} from "@angular/common";
 import {Router} from "@angular/router";
 import {User} from "./user";
 import {AuthService} from "./auth.service";
+import {ErrorService} from "../errors/error.service";
 
 @Component({
 	selector: 'b2b-portal-login',
@@ -26,7 +27,7 @@ import {AuthService} from "./auth.service";
 export class LoginComponent implements OnInit{
 	loginForm: ControlGroup;
 
-	constructor(private _fb: FormBuilder, private _authService: AuthService, private _router: Router) { }
+	constructor(private _fb: FormBuilder, private _authService: AuthService, private _router: Router, private _errorService: ErrorService) { }
 
 	ngOnInit() {
 		this.loginForm = this._fb.group({
@@ -45,7 +46,7 @@ export class LoginComponent implements OnInit{
 					localStorage.setItem('userId', data.userId);
 					this._router.navigateByUrl('/');
 				},
-				error => console.error(error)
+				error => this._errorService.handleError(error)
 			);
 	}
 }

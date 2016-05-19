@@ -9,5 +9,6 @@ import {AuthService} from "./auth/auth.service";
 import {GoodsService} from "./goods/goods.service";
 import {OrderService} from "./orders/order.service";
 import {BasketService} from "./orders/basket.service";
+import {ErrorService} from "./errors/error.service";
 
-bootstrap(B2BPortalComponent, [ROUTER_PROVIDERS, HTTP_PROVIDERS, provide(LocationStrategy, {useClass: HashLocationStrategy}), AuthService, GoodsService, OrderService, BasketService]);
+bootstrap(B2BPortalComponent, [ROUTER_PROVIDERS, HTTP_PROVIDERS, provide(LocationStrategy, {useClass: HashLocationStrategy}), AuthService, GoodsService, OrderService, BasketService, ErrorService]);
