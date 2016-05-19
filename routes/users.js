@@ -26,7 +26,7 @@ router.post('/login', function (req, res, next) {
 			var xmlData = new XmlDocument(data);
 			var resultText = xmlData.valueWithPath('soap:Body.m:LoginResponse.m:return');
 			console.log('resultText = ' + resultText);
-			var token = jwt.sign({user: userLogin}, 'user_key', {expiresIn: 7200});
+			var token = jwt.sign({user: userLogin}, 'b2b_user_key', {expiresIn: 7200});
 			return res.status(200).json({
 				message: 'Успех',
 				token: token,

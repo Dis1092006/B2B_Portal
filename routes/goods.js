@@ -2,6 +2,19 @@ var express = require('express');
 var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 var XmlDocument = require('xmldoc').XmlDocument;
 var router = express.Router();
+var jwt = require('jsonwebtoken');
+
+router.use('/', function(req, res, next) {
+	jwt.verify(req.query.token, 'b2b_user_key', function(err, decoded) {
+		if (err) {
+			return res.status(401).json({
+				message: 'Ошибка авторизации!',
+				error: err
+			});
+		}
+		next();
+	});
+});
 
 router.get('/', function(req, res, next) {
 
@@ -14,7 +27,7 @@ router.get('/', function(req, res, next) {
 			var xmlData = new XmlDocument(data);
 			var resultText = xmlData.valueWithPath('soap:Body.soap:Reason.soap:Text');
 			return res.status(status).json({
-				title: 'Ошибка!',
+				message: 'Ошибка!',
 				error: resultText
 			});
 		},

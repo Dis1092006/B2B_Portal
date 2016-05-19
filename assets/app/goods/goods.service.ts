@@ -11,7 +11,7 @@ export class GoodsService {
     constructor(private _http: Http) { }
 
     getGoods() {
-        return this._http.get('http://localhost:8000/goods')
+        return this._http.get('https://torg-b2b.ru/Portal_TEST/goods')
 	        .map(response => {
 		        const data = JSON.parse(response.json().obj);
 		        let goods: any[] = [];
@@ -20,11 +20,11 @@ export class GoodsService {
 					this.parseGoodsItem(data[i], 0, goods);
 			        return goods;
 		        }
-	        });
-            // .catch(error => {
-			// 	console.log("getGoods() error: " + JSON.stringify(error));
-			// 	return Observable.throw(error.json())
-			// });
+	        })
+            .catch(error => {
+				console.log("getGoods() error: " + JSON.stringify(error));
+				return Observable.throw(error.json())
+			});
     }
 
 	parseGoodsItem(itemData, level, goods) {
