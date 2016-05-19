@@ -46,7 +46,7 @@ function executeLoginSoapRequest(userName, password, processError, processSucces
 	//wsUrl = 'https://' + window.location.host + '/B2B/ws/Authorization';
 	wsUser = 'web_user';
 	wsPassword = 'WebU$er';
-
+	
 	soapRequest =
 		'<?xml version="1.0" encoding="utf-8"?>' +
 		'<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:mik="http://www.mik_b2b.ru/">' +
