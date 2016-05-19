@@ -6,26 +6,27 @@ import {Observable} from "rxjs/Rx";
 
 @Injectable()
 export class GoodsService {
-    goods: GoodsItem[] = [];
+	goods: GoodsItem[] = [];
 
-    constructor(private _http: Http) { }
+	constructor(private _http: Http) { }
 
-    getGoods() {
-        return this._http.get('http://localhost:8000/goods')
-	        .map(response => {
-		        const data = JSON.parse(response.json().obj);
-		        let goods: any[] = [];
-		        for (let i = 0; i < data.length; i++) {
-			        //console.log("data[i]: " + JSON.stringify(data[i]));
+	getGoods() {
+		const token = localStorage.getItem('token') ? '?token=' + localStorage.getItem('token') : '';
+		return this._http.get('https://torg-b2b.ru/Portal_TEST/goods' + token)
+			.map(response => {
+				const data = JSON.parse(response.json().obj);
+				let goods: any[] = [];
+				for (let i = 0; i < data.length; i++) {
+					//console.log("data[i]: " + JSON.stringify(data[i]));
 					this.parseGoodsItem(data[i], 0, goods);
-			        return goods;
-		        }
-	        });
-            // .catch(error => {
-			// 	console.log("getGoods() error: " + JSON.stringify(error));
-			// 	return Observable.throw(error.json())
-			// });
-    }
+					return goods;
+				}
+			})
+			.catch(error => {
+				console.log("getGoods() error: " + JSON.stringify(error));
+				return Observable.throw(error.json())
+			});
+	}
 
 	parseGoodsItem(itemData, level, goods) {
 		let goodsItem = new GoodsItem(

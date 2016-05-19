@@ -1,5 +1,6 @@
-import {ROUTER_DIRECTIVES} from "@angular/router";
 import {Component} from "@angular/core";
+import {ROUTER_DIRECTIVES} from "@angular/router";
+import {AuthService} from "./auth/auth.service";
 
 @Component({
 	selector: 'b2b-portal-header',
@@ -41,24 +42,15 @@ import {Component} from "@angular/core";
                             <a [routerLink]="['contacts']">Контакты</a>
                         </li>
                     </ul>
-                    <button id="enter" type="button" class="navbar-right btn btn-default b2b_btn_enter" data-toggle="modal"
-                            data-target="#sign-in-modal">Войти!!!
-                    </button>
-                    <button id="exit" type="button" class="navbar-right btn btn-default b2b_btn_exit">
-                        Выйти!!!
-                    </button>
                     <ul class="nav navbar-nav navbar-right">
                         <li>
                             <a [routerLink]="['basket']"><span class="glyphicon glyphicon-shopping-cart"></span></a>
                         </li>
                         <li>
-                            <a [routerLink]="['auth']" id="login-text">Auth</a>
+		                    <a [routerLink]="['login']" *ngIf="!isLoggedIn()" class="btn btn-default">Войти</a>
                         </li>
                         <li>
-		                    <a [routerLink]="['login']" class="btn btn-small btn-default">Войти</a>
-                        </li>
-                        <li>
-		                    <a [routerLink]="['logout']" class="btn btn-small btn-default">Выйти</a>
+		                    <a [routerLink]="['logout']" *ngIf="isLoggedIn()" class="btn btn-default">Выйти</a>
                         </li>
                     </ul>
                 </div>
@@ -68,5 +60,9 @@ import {Component} from "@angular/core";
 	directives: [ROUTER_DIRECTIVES]
 })
 export class HeaderComponent {
+	constructor(private _authService: AuthService) { }
 
+	isLoggedIn() {
+		return this._authService.isLoggedIn();
+	}
 }

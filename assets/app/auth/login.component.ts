@@ -1,5 +1,8 @@
 import {Component, OnInit} from "@angular/core";
 import {ControlGroup, FormBuilder, Validators} from "@angular/common";
+import {Router} from "@angular/router";
+import {User} from "./user";
+import {AuthService} from "./auth.service";
 
 @Component({
 	selector: 'b2b-portal-login',
@@ -23,7 +26,7 @@ import {ControlGroup, FormBuilder, Validators} from "@angular/common";
 export class LoginComponent implements OnInit{
 	loginForm: ControlGroup;
 
-	constructor(private _fb: FormBuilder) { }
+	constructor(private _fb: FormBuilder, private _authService: AuthService, private _router: Router) { }
 
 	ngOnInit() {
 		this.loginForm = this._fb.group({
@@ -33,7 +36,16 @@ export class LoginComponent implements OnInit{
 	}
 
 	onSubmit() {
-		console.log(this.loginForm.value);
+		const user = new User(this.loginForm.value.user, this.loginForm.value.password);
+		this._authService.login(user)
+			.subscribe(
+				data => {
+					console.log(JSON.stringify(data));
+					localStorage.setItem('token', data.token);
+					localStorage.setItem('userId', data.userId);
+					this._router.navigateByUrl('/');
+				},
+				error => console.error(error)
+			);
 	}
-
 }

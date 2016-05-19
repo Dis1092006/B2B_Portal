@@ -35,12 +35,6 @@ body.loading.waiting-modal {
     font: normal normal 14px Verdana, Geneva, Arial, Helvetica, sans-serif;
 }
 
-.b2b_btn_enter,
-.b2b_btn_exit {
-    margin-right: 1px;
-    margin-top: 7px;
-}
-
 .panel {
     margin-top: 10px;
     margin-left: 10px;
