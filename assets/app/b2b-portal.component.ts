@@ -1,5 +1,7 @@
 import {Component} from '@angular/core';
-import {ROUTER_DIRECTIVES, Routes, Router} from "@angular/router";
+import {ROUTER_DIRECTIVES, Routes} from "@angular/router";
+import {AuthService} from "./auth/auth.service";
+import {GoodsService} from "./goods/goods.service";
 import {HeaderComponent} from "./header.component";
 import {GoodsListComponent} from "./goods/goods-list.component";
 import {OrderListComponent} from "./orders/order-list.component";
@@ -34,7 +36,10 @@ import {ErrorComponent} from "./errors/error.component";
 ])
 export class B2BPortalComponent {
 
-    constructor(private _router: Router) {
+    constructor(private _authService: AuthService, private _goodsService: GoodsService) {
+        if (_authService.isLoggedIn()) {
+	        _goodsService.refreshGoods();
+        }
     }
 
 }

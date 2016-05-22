@@ -1,8 +1,10 @@
 import {Component, OnInit} from "@angular/core";
+import {Observable} from "rxjs/Rx";
 import {GoodsItem} from "./goods-item";
 import {GoodsService} from "./goods.service";
 import {BasketService} from "../orders/basket.service";
 import {ErrorService} from "../errors/error.service";
+import {GoodsItemComponent} from "./goods-item.component";
 
 @Component({
 	selector: 'goods-list',
@@ -21,22 +23,16 @@ import {ErrorService} from "../errors/error.service";
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let item of goods">
-                        <td [ngStyle]="{'padding-left': (5 + item.level * 15) + 'px'}">{{item.name}}</td>
-                        <td>{{item.price}}</td>
-                        <td>{{item.volume}}</td>
-                        <td><abbr title="{{item.description}}">описание</abbr></td>
-                        <td><input type="text" value="1" size="5"></td>
-                        <td><a (click)="onAddToBasket(item, 1)" class="basket-picture"><span class="glyphicon glyphicon-arrow-right"></span></a></td>
-                        <td>{{_basketService.countOfItem(item.code)}}</td>
+                    <tr *ngFor="let item of goods" [goods-item]="item">
                     </tr>
                 </tbody>
             </table>
         </div>
-    `
+    `,
+	directives: [GoodsItemComponent]
 })
 export class GoodsListComponent implements OnInit {
-	goods: GoodsItem[];
+	goods: GoodsItem[] = [];
 
 	constructor(private _goodsService: GoodsService, private _basketService: BasketService, private _errorService: ErrorService) {
 	}
@@ -44,14 +40,19 @@ export class GoodsListComponent implements OnInit {
 	ngOnInit() {
 		//this.goods = this._goodsService.getGoods();
 		console.log("GoodsListComponent.ngOnInit");
-		this._goodsService.getGoods()
+		this._goodsService.goods$
 			.subscribe(
-				goods => {
-					this.goods = goods;
-					this._goodsService.goods = goods;
+				value => {
+					this.goods = value;
 				},
 				error => this._errorService.handleError(error)
 			);
+		this.onRefreshGoodsList();
+	}
+
+	onRefreshGoodsList() {
+		console.log("onRefreshGoodsList");
+		this.goods = this._goodsService.getGoods();
 	}
 
 	onAddToBasket(item: GoodsItem, count: number) {
