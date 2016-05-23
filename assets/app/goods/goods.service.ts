@@ -3,6 +3,7 @@ import {Http, Response} from "@angular/http";
 import {Observable, Observer} from "rxjs/Rx";
 import 'rxjs/Rx';
 import {GoodsItem} from "./goods-item";
+import {ErrorService} from "../errors/error.service";
 
 @Injectable()
 export class GoodsService {
@@ -12,7 +13,7 @@ export class GoodsService {
 		goods: GoodsItem[];
 	};
 
-	constructor(private _http: Http) {
+	constructor(private _http: Http, private _errorService: ErrorService) {
 		console.log("GoodsService.constructor");
 		this.goods$ = new Observable<GoodsItem[]>(observer => this._goodsObserver = observer).share();
 		this._dataStore = {
@@ -69,13 +70,16 @@ export class GoodsService {
 		this.loadGoods()
 			.subscribe(
 				data => {
+					console.log("refreshGoods, got data, now = " + new Date().toTimeString());
 					this._dataStore.goods = data;
 					if (this._goodsObserver) {
 						console.log("refreshGoods, inform to observers, now = " + new Date().toTimeString());
 						this._goodsObserver.next(this._dataStore.goods);
 					}
 				},
-				error => console.log('Could not load goods. Error: ' + JSON.stringify(error)));
+				error => this._errorService.handleError(error)
+			);
+				//error => console.log('Could not load goods. Error: ' + JSON.stringify(error)));
 	}
 
 	getGoods() {

@@ -15,6 +15,8 @@ import {ErrorService} from "./error.service";
                     </div>
                     <div class="modal-body">
                      <p>{{errorData?.message}}</p>
+                     <div class="table-responsive" [innerHTML]="errorHTML">
+        			</div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" (click)="onErrorHandled()">Close</button>
@@ -37,6 +39,7 @@ import {ErrorService} from "./error.service";
 export class ErrorComponent implements OnInit {
 	errorDisplay = 'none';
 	errorData: Error;
+	errorHTML: string;
 
 	constructor (private _errorService: ErrorService) {}
 
@@ -48,6 +51,7 @@ export class ErrorComponent implements OnInit {
 		this._errorService.errorOccurred.subscribe(
 			errorData => {
 				this.errorData = errorData;
+				this.errorHTML = errorData.html;
 				this.errorDisplay = 'block';
 			}
 		);
