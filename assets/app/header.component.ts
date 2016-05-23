@@ -1,6 +1,7 @@
-import {Component} from "@angular/core";
+import {Component, OnInit} from "@angular/core";
 import {ROUTER_DIRECTIVES} from "@angular/router";
 import {AuthService} from "./auth/auth.service";
+import {BasketService} from "./orders/basket.service";
 
 @Component({
 	selector: 'b2b-portal-header',
@@ -44,7 +45,7 @@ import {AuthService} from "./auth/auth.service";
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li>
-                            <a [routerLink]="['basket']"><span class="glyphicon glyphicon-shopping-cart"></span></a>
+                            <a [routerLink]="['basket']"><span class="glyphicon glyphicon-shopping-cart"></span>{{basketInfo}}</a>
                         </li>
                         <li>
 		                    <a [routerLink]="['login']" *ngIf="!isLoggedIn()" class="btn btn-default">Войти</a>
@@ -59,8 +60,19 @@ import {AuthService} from "./auth/auth.service";
     `,
 	directives: [ROUTER_DIRECTIVES]
 })
-export class HeaderComponent {
-	constructor(private _authService: AuthService) { }
+export class HeaderComponent implements OnInit {
+	basketInfo: string;
+
+	constructor(private _authService: AuthService, private _basketService: BasketService) { }
+
+	ngOnInit() {
+		this.basketInfo = this._basketService.getBasketInfo();
+		this._basketService.basketInfoChanged.subscribe(
+			basketInfo => {
+				this.basketInfo = basketInfo;
+			}
+		);
+	}
 
 	isLoggedIn() {
 		return this._authService.isLoggedIn();

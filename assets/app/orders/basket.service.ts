@@ -1,12 +1,16 @@
+import {EventEmitter} from "@angular/core";
 import {Order} from "./order";
 import {GoodsItem} from "../goods/goods-item";
 import {OrderItem} from "./order-item";
 
 export class BasketService {
 	basket: Order;
+	basketInfo: string;
+	basketInfoChanged = new EventEmitter<string>();
 
 	constructor() {
 		this.basket = new Order('');
+		this.basketInfo = 'Ваша корзина пуста';
 	}
 
 	getItems() {
@@ -28,6 +32,7 @@ export class BasketService {
 			);
 			this.basket.addItem(orderItem);
 		}
+		this.updateBasketInfo();
 	}
 
 	editItem(item: OrderItem) {
@@ -47,5 +52,14 @@ export class BasketService {
 			}
 		});
 		return count;
+	}
+
+	updateBasketInfo() {
+		this.basketInfo = 'Корзина: ' + 'кол-во: ' + this.basket.getTotalCount() + ', сумма: ' + this.basket.getTotalAmount() + ', объём: ' + this.basket.getTotalVolume().toFixed(4);
+		this.basketInfoChanged.emit(this.basketInfo);
+	}
+
+	getBasketInfo() {
+		return this.basketInfo;
 	}
 }
