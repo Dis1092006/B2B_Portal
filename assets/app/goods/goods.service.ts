@@ -79,7 +79,6 @@ export class GoodsService {
 				},
 				error => this._errorService.handleError(error)
 			);
-				//error => console.log('Could not load goods. Error: ' + JSON.stringify(error)));
 	}
 
 	getGoods() {

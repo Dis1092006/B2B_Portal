@@ -38,7 +38,6 @@ export class GoodsListComponent implements OnInit {
 	}
 
 	ngOnInit() {
-		//this.goods = this._goodsService.getGoods();
 		console.log("GoodsListComponent.ngOnInit");
 		this._goodsService.goods$
 			.subscribe(

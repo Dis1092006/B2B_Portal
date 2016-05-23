@@ -29,7 +29,7 @@ import {BasketService} from "./basket.service";
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					<!--Текущий заказ-->
-					<button id="make-order-button" type="button" class="btn btn-large btn-warning" (click)="onClick()">Оформить заказ <span class="glyphicon glyphicon-usd"></span>
+					<button id="make-order-button" type="button" class="btn btn-large btn-warning" (click)="onNewOrder()">Оформить заказ <span class="glyphicon glyphicon-usd"></span>
 					</button>
 				</div>
 				<div class="panel-body">
@@ -47,7 +47,7 @@ import {BasketService} from "./basket.service";
 							</tr>
 							</thead>
 							<tbody>
-							<tr *ngFor="let item of items">
+							<tr *ngFor="let item of basket.items">
                                 <td>{{item.name}}</td>
                                 <td>{{item.count}}</td>
                                 <td>{{item.price}}</td>
@@ -57,34 +57,40 @@ import {BasketService} from "./basket.service";
                                 <td><a (click)="onDeleteItem(item)"><span class="glyphicon glyphicon-remove"></span></a></td>
                             </tr>
 							</tbody>
-						</table>
-						<!--
-												<table id="tree-table-order-footer" class="table table-bordered table-condensed">
-												</table>
-						-->
+                            <tfoot>
+                                <tr>
+                                    <td><b>Итого заказ</b></td>
+                                    <td><b>{{basket.getTotalCount()}}</b></td>
+                                    <td></td>
+                                    <td><b>{{basket.getTotalAmount()}}</b></td>
+                                    <td><b>{{basket.getTotalVolume().toFixed(4)}}</b></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </tfoot>
+                        </table>
 					</div>
 				</div>
 			</div>
     `
 })
 export class BasketComponent implements OnInit {
-    @Input() order: Order;
-    items: OrderItem[];
+    basket: Order;
 
     constructor(private _orderService : OrderService, private _basketService : BasketService) {
 
     }
 
     ngOnInit() {
-        this.items = this._basketService.getItems();
+        this.basket = this._basketService.getBasket();
     }
 
 	onDeleteItem(item) {
 		this._basketService.deleteItem(item);
 	}
 
-    onClick() {
-        console.log('Make order');
-        this._orderService.addOrder(this.order);
+	onNewOrder() {
+        console.log('New order');
+        this._orderService.newOrder(this.basket);
     }
 }

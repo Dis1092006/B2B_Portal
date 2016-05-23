@@ -13,8 +13,8 @@ export class BasketService {
 		this.basketInfo = 'Ваша корзина пуста';
 	}
 
-	getItems() {
-		return this.basket.getItems();
+	getBasket() {
+		return this.basket;
 	}
 
 	addItem(goodsItem: GoodsItem, count: number) {

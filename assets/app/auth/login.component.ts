@@ -24,7 +24,7 @@ import {ErrorService} from "../errors/error.service";
 		</section>
 	`
 })
-export class LoginComponent implements OnInit{
+export class LoginComponent implements OnInit {
 	loginForm: ControlGroup;
 
 	constructor(private _fb: FormBuilder, private _authService: AuthService, private _router: Router, private _errorService: ErrorService) { }
