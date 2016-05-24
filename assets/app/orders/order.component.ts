@@ -7,15 +7,15 @@ import {Order} from "./order";
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h4 class="panel-title">
-                    <a aria-expanded="true" data-toggle="collapse" href="#collapse{{order.number}}">
-                        Заказ №{{order.number}} от 25.03.2016. Корниенко М.В. ИП. Батайск. Сумма:127&nbsp;450. Количество:21
+                    <a aria-expanded="true" data-toggle="collapse" href="#collapse{{order.code}}">
+                        Заказ №{{order.code}} от 25.03.2016. Корниенко М.В. ИП. Батайск. Сумма:127&nbsp;450. Количество:21
                     </a>
                     <a aria-expanded="true" class="pull-right" data-toggle="collapse" href="#" (click)="onEditOrder()">
                         <span class="glyphicon glyphicon-usd">Изменить заказ</span>
                     </a>
                 </h4>
             </div>
-            <div aria-expanded="true" style="" id="collapse{{order.number}}" class="panel-collapse collapse in">
+            <div aria-expanded="true" style="" id="collapse{{order.code}}" class="panel-collapse collapse in">
                 <div class="panel-body">
                     <table id="tree-table-order" class="table table-bordered table-condensed order-table">
                             <thead>

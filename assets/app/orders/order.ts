@@ -1,42 +1,57 @@
-import {OrderItem} from "./order-item";
+import {OrderRow} from "./order-row";
 
 export class Order {
-    items: OrderItem[];
+	// ШАПКА ЗАКАЗА:
+	// Код(УИД) заказа - для случаев, если это не новый заказ (если новый то пустая строка),
+	code: string;
+	// Код контрагента,
+	legal_entity: string;
+	// Адрес доставки
+	outlet: string;
+	// Адрес доставки
+	code_division: string;
+	// ТАБЛИЧНАЯ ЧАСТЬ:
+	rows: OrderRow[];
+	// Подвал:
 	totalCount : number;
 	totalAmount : number;
 	totalVolume : number;
 
-    constructor(public number: string) {
-        this.items = [];
+    constructor(code: string) {
+	    this.code = code;
+	    this.legal_entity = '';
+	    this.outlet = '';
+	    this.code_division = '';
+        this.rows = [];
 	    this.totalCount = 0;
 	    this.totalAmount = 0;
 	    this.totalVolume = 0;
     }
 
-    getItems() {
-	    return this.items;
+    getRows() {
+	    return this.rows;
     }
 
-	getItem(itemCode: string) {
-		let item: OrderItem = null;
-		for (let index = 0; index < this.items.length; index++) {
-			if (this.items[index].code === itemCode) {
-				item = this.items[index];
-				index = this.items.length;
+	getRow(rowCode: string) {
+		let row: OrderRow = null;
+		for (let index = 0; index < this.rows.length; index++) {
+			if (this.rows[index].code === rowCode) {
+				row = this.rows[index];
+				index = this.rows.length;
 			}
 		}
-		return item;
+		return row;
 	}
 
-	addItem(item: OrderItem) {
-		this.items.push(item);
-		this.totalCount += item.count;
-		this.totalAmount += item.getAmount();
-		this.totalVolume += (item.volume * item.count);
+	addItem(row: OrderRow) {
+		this.rows.push(row);
+		this.totalCount += row.count;
+		this.totalAmount += row.getAmount();
+		this.totalVolume += (row.volume * row.count);
 	}
 
-	deleteItem(item: OrderItem) {
-		this.items.splice(this.items.indexOf(item), 1);
+	deleteItem(row: OrderRow) {
+		this.rows.splice(this.rows.indexOf(row), 1);
 	}
 
 	getTotalCount() {

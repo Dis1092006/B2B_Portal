@@ -1,7 +1,7 @@
 import {EventEmitter} from "@angular/core";
 import {Order} from "./order";
 import {GoodsItem} from "../goods/goods-item";
-import {OrderItem} from "./order-item";
+import {OrderRow} from "./order-row";
 
 export class BasketService {
 	basket: Order;
@@ -18,11 +18,11 @@ export class BasketService {
 	}
 
 	addItem(goodsItem: GoodsItem, count: number) {
-		let orderItem = this.basket.getItem(goodsItem.code);
+		let orderItem = this.basket.getRow(goodsItem.code);
 		if (orderItem) {
 			orderItem.count += count;
 		} else {
-			orderItem = new OrderItem(
+			orderItem = new OrderRow(
 				goodsItem.code,
 				goodsItem.name,
 				count,
@@ -35,17 +35,17 @@ export class BasketService {
 		this.updateBasketInfo();
 	}
 
-	editItem(item: OrderItem) {
+	editItem(item: OrderRow) {
 
 	}
 
-	deleteItem(item: OrderItem) {
+	deleteItem(item: OrderRow) {
 		this.basket.deleteItem(item);
 	}
 
 	countOfItem(itemCode: string) {
 		let count = 0;
-		this.basket.getItems().forEach(
+		this.basket.getRows().forEach(
 			item => {
 			if (item.code === itemCode) {
 				count += item.count;

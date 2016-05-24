@@ -1,4 +1,5 @@
 var gulp = require('gulp');
+//var browserSync = require('browser-sync');
 
 var appDev = 'assets/app/';
 var appProd = 'public/js/app/';
@@ -14,6 +15,11 @@ var concat = require('gulp-concat');
 
 var tsProject = typescript.createProject('tsconfig.json');
 
+// gulp.task('browser-sync', function() {
+// 	browserSync.init({
+// 		proxy: "localhost:8000"
+// 	});
+// });
 
 gulp.task('build-ts', function () {
     return gulp.src(appDev + '**/*.ts')
@@ -23,6 +29,7 @@ gulp.task('build-ts', function () {
         // .pipe(jsuglify())
         // .pipe(concat('bundle.js'))
         .pipe(gulp.dest(appProd));
+	    //.pipe(browserSync.reload({stream:true}));
 });
 
 gulp.task('build-copy', function () {

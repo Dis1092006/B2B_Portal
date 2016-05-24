@@ -1,7 +1,7 @@
 import {Component, OnInit, Input, Output, EventEmitter} from "@angular/core";
 import {Order} from "./order";
 import {OrderService} from "./order.service";
-import {OrderItem} from "./order-item";
+import {OrderRow} from "./order-row";
 import {BasketService} from "./basket.service";
 
 @Component({

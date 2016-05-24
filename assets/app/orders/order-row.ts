@@ -1,4 +1,4 @@
-export class OrderItem {
+export class OrderRow {
 
     constructor(
         public code: string,

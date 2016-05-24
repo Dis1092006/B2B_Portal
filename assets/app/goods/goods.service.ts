@@ -24,7 +24,8 @@ export class GoodsService {
 	loadGoods(): Observable<any> {
 		console.log("loadGoods, now = " + new Date().toTimeString());
 		const token = localStorage.getItem('token') ? '?token=' + localStorage.getItem('token') : '';
-		return this._http.get('https://torg-b2b.ru/Portal_TEST/goods' + token)
+		//return this._http.get('https://torg-b2b.ru/Portal_TEST/goods' + token)
+		return this._http.get('https://localhost:8000/Portal_TEST/goods' + token)
 			.map(response => this.extractData(response))
 			.catch(error => this.handleError(error));
 	}

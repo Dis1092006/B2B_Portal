@@ -8,6 +8,7 @@ var bodyParser = require('body-parser');
 var appRoutes = require('./routes/app');
 var usersRoutes = require('./routes/users');
 var goodsRoutes = require('./routes/goods');
+var ordersRoutes = require('./routes/orders');
 
 var app = express();
 
@@ -35,6 +36,7 @@ app.use(function(req, res, next) {
 // Временно, для отладки.
 app.use(cors());
 
+app.use('/orders', ordersRoutes);
 app.use('/goods', goodsRoutes);
 app.use('/user', usersRoutes);
 app.use('/', appRoutes);

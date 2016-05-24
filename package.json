@@ -37,6 +37,7 @@
     "zone.js": "^0.6.12"
   },
   "devDependencies": {
+    "browser-sync": "^2.12.8",
     "gulp": "^3.9.0",
     "gulp-concat": "^2.6.0",
     "gulp-sourcemaps": "^1.6.0",

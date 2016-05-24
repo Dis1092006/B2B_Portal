@@ -50,6 +50,7 @@ export class ErrorComponent implements OnInit {
 	ngOnInit() {
 		this._errorService.errorOccurred.subscribe(
 			errorData => {
+				console.log('errorData = ' + JSON.stringify(errorData));
 				this.errorData = errorData;
 				this.errorHTML = errorData.html;
 				this.errorDisplay = 'block';
