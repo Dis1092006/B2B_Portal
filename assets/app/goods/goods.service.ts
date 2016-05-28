@@ -3,6 +3,7 @@ import {Http, Response} from "@angular/http";
 import {Observable, Observer} from "rxjs/Rx";
 import 'rxjs/Rx';
 import {GoodsItem} from "./goods-item";
+import {B2BConfig} from "../b2b-config";
 import {ErrorService} from "../errors/error.service";
 
 @Injectable()
@@ -24,8 +25,7 @@ export class GoodsService {
 	loadGoods(): Observable<any> {
 		console.log("loadGoods, now = " + new Date().toTimeString());
 		const token = localStorage.getItem('token') ? '?token=' + localStorage.getItem('token') : '';
-		//return this._http.get('https://torg-b2b.ru/Portal_TEST/goods' + token)
-		return this._http.get('https://localhost:8000/Portal_TEST/goods' + token)
+		return this._http.get(`${B2BConfig.B2B_PORTAL_ENDPOINT}/goods` + token)
 			.map(response => this.extractData(response))
 			.catch(error => this.handleError(error));
 	}

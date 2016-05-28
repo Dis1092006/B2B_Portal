@@ -3,6 +3,7 @@ import {Http, Headers} from "@angular/http";
 import {Observable} from "rxjs/Rx";
 import {Order} from "./order";
 import {OrderRow} from "./order-row";
+import {B2BConfig} from "../b2b-config";
 import {ErrorService} from "../errors/error.service";
 
 @Injectable()
@@ -54,8 +55,7 @@ export class OrderService {
 	    const body = JSON.stringify(order);
 	    const headers = new Headers();
 	    headers.append('Content-Type', 'application/json');
-	    //return this._http.post('https://torg-b2b.ru/Portal_TEST/orders' + token + userId, body, {headers: headers})
-	    return this._http.post('https://localhost:8000/Portal_TEST/orders' + token + userId, body, {headers: headers})
+	    return this._http.post(`${B2BConfig.B2B_PORTAL_ENDPOINT}/orders` + token + userId, body, {headers: headers})
 		    .map(response => response.json())
 		    .catch(error => {
 			    return Observable.throw(error)
