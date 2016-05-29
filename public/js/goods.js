@@ -11,7 +11,7 @@ function Goods() {
 }
 
 Goods.prototype.setGoods = function (goods) {
-	var firstItem, index;
+	var firstItem, columnName, style;
 
 	this.goods = goods;
 
@@ -19,8 +19,20 @@ Goods.prototype.setGoods = function (goods) {
 	firstItem = goods[0];
 	this.stocks = [];
 	for (var key in firstItem) {
-		if (key.toLowerCase().indexOf('колонкасклада_') >= 0) {
-			this.stocks.push(key);
+		columnName = key.toLowerCase();
+		if (columnName.indexOf('колонкасклада_') >= 0) {
+			if (columnName.indexOf('в_наличии') >= 0)
+				style = 'width: 100px; font-weight: bold; color: black';
+			else if (columnName.indexOf('в_пути') >= 0)
+				style = 'width: 100px; font-weight: bold; color: blue';
+			else if (columnName.indexOf('под_заказ') >= 0)
+				style = 'width: 100px; font-style: italic; color: red';
+			else
+				style = 'width: 100px;';
+			this.stocks.push({
+				name: key,
+				style: style
+			});
 		}
 	}
 };
@@ -45,7 +57,7 @@ Goods.prototype.appendSubItems = function (items, stocks, level, basket_items, g
 				'	<td style="width: ' + (goods_column_width - 1) + 'px;' + currentPadding + '">' + item["Товар"] + '</td>';
 			$(stocks).each(function (index, stock) {
 				tr +=
-					'	<td style="width: 100px"></td>';
+					'	<td style="' + stock.style + '"></td>';
 			});
 
 			tr +=
@@ -62,7 +74,7 @@ Goods.prototype.appendSubItems = function (items, stocks, level, basket_items, g
 				'	<td style="width: ' + (goods_column_width - 1) + 'px;' + currentPadding + '">' + item["Товар"] + '</td>';
 			$(stocks).each(function (index, stock) {
 				tr +=
-					'	<td style="width: 100px">' + item[stock] + '</td>';
+					'	<td style="' + stock.style + '">' + item[stock.name] + '</td>';
 			});
 			itemDescription = item["ДополнительноеОписаниеНоменклатуры"].replace(/"/g, "&quot;");
 
@@ -112,7 +124,7 @@ Goods.prototype.getGoodsTableView = function (basket_items, maxWidth) {
 		'		<tr>' +
 		'			<th style="width: ' + (goods_column_width - 1) + 'px">Товар</th>';
 	$(this.stocks).each(function (index, stock) {
-		stock_column_name = stock;
+		stock_column_name = stock.name;
 		pos = stock_column_name.toLowerCase().indexOf('колонкасклада_');
 		if (pos === 0) {
 			stock_column_name = stock_column_name.substring(14);
@@ -121,7 +133,7 @@ Goods.prototype.getGoodsTableView = function (basket_items, maxWidth) {
 		}
 		stock_column_name = stock_column_name.replace(new RegExp('_', 'g'), ' ');
 		table +=
-			'			<th style="width: 100px">' + stock_column_name + '</th>';
+			'			<th style="' + stock.style + '">' + stock_column_name + '</th>';
 	});
 	table +=
 		'			<th style="width: 100px">Стоимость товара</th>' +
