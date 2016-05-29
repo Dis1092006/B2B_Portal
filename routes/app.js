@@ -5,8 +5,4 @@ router.get('/', function(req, res, next) {
 	res.render('index');
 });
 
-router.get('/Portal_TEST', function (req, res) {
-	res.render('index');
-});
-
 module.exports = router;

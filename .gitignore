@@ -1,5 +1,7 @@
 .idea
 node_modules
 typings
+public/css
 public/js
+public/fonts
 public/stylesheets

@@ -16,8 +16,11 @@ var app = express();
 cors = require('cors');
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
+//app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(__dirname, 'public'));
 app.set('view engine', 'hbs');
+
+console.log('__dirname = ' + __dirname);
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -25,7 +28,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use('/Portal_TEST_new', express.static(path.join(__dirname, 'public')));
 
 app.use(function(req, res, next) {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -36,10 +39,10 @@ app.use(function(req, res, next) {
 // Временно, для отладки.
 app.use(cors());
 
-app.use('/orders', ordersRoutes);
-app.use('/goods', goodsRoutes);
-app.use('/user', usersRoutes);
-app.use('/', appRoutes);
+app.use('/Portal_TEST_new/orders', ordersRoutes);
+app.use('/Portal_TEST_new/goods', goodsRoutes);
+app.use('/Portal_TEST_new/user', usersRoutes);
+app.use('/Portal_TEST_new/', appRoutes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
