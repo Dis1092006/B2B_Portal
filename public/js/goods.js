@@ -54,6 +54,7 @@ Goods.prototype.appendSubItems = function (items, stocks, level, basket_items, g
 		if (item["ЭтоГруппа"]) {
 			tr +=
 				'<tr>' +
+				'	<td>' + item["КодПозиции"] + '</td>' +
 				'	<td style="width: ' + (goods_column_width - 1) + 'px;' + currentPadding + '">' + item["Товар"] + '</td>';
 			$(stocks).each(function (index, stock) {
 				tr +=
@@ -71,6 +72,7 @@ Goods.prototype.appendSubItems = function (items, stocks, level, basket_items, g
 		} else {
 			tr +=
 				'<tr code="' + item["Код"] + '">' +
+				'	<td>' + item["КодПозиции"] + '</td>' +
 				'	<td style="width: ' + (goods_column_width - 1) + 'px;' + currentPadding + '">' + item["Товар"] + '</td>';
 			$(stocks).each(function (index, stock) {
 				tr +=
@@ -122,6 +124,7 @@ Goods.prototype.getGoodsTableView = function (basket_items, maxWidth) {
 		'	<thead>' +
 //		'	<thead class="fixedHeader">' +
 		'		<tr>' +
+		'			<th>Код позиции</th>' +
 		'			<th style="width: ' + (goods_column_width - 1) + 'px">Товар</th>';
 	$(this.stocks).each(function (index, stock) {
 		stock_column_name = stock.name;

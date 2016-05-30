@@ -52,7 +52,7 @@ function onSuccessTreeBalanceSoapRequest(data, status, req) {
 	var resultText, result, Goods, tree;
 
 	resultText = $(req.responseText).find("m\\:return").html();
-	//console.log(resultText);
+	console.log(resultText);
 	result = JSON.parse(resultText);
 
 	Goods = require('./goods');
@@ -217,6 +217,7 @@ function onChangedCity() {
 
 	filter = {};
 	filter["Подразделение"] = current_order.getCurrentCity();
+	filter["ПоказатьКод"] = $("#show-code").prop("checked");
 	filter["Группа1"] = $("#select-group1").find("option:selected").text();
 	filter["Группа2"] = $("#select-group2").find("option:selected").text();
 	filter["Группа3"] = $("#select-group3").find("option:selected").text();
@@ -248,6 +249,7 @@ function onChangeFilter1() {
 
 	filter = {};
 	filter["Подразделение"] = current_order.getCurrentCity();
+	filter["ПоказатьКод"] = $("#show-code").prop("checked");
 	filter["Группа1"] = $("#select-group1").find("option:selected").text();
 	filter["Группа2"] = $("#select-group2").find("option:selected").text();
 	filter["Группа3"] = $("#select-group3").find("option:selected").text();
@@ -270,6 +272,7 @@ function onChangeFilter2() {
 
 	filter = {};
 	filter["Подразделение"] = current_order.getCurrentCity();
+	filter["ПоказатьКод"] = $("#show-code").prop("checked");
 	filter["Группа1"] = $("#select-group1").find("option:selected").text();
 	filter["Группа2"] = $("#select-group2").find("option:selected").text();
 	filter["Группа3"] = $("#select-group3").find("option:selected").text();
@@ -443,6 +446,7 @@ function goodsClick() {
 	filter = {};
 
 	filter["Подразделение"] = current_order.getCurrentCity();
+	filter["ПоказатьКод"] = $("#show-code").prop("checked");
 	filter["Группа1"] = $("#select-group1").find("option:selected").text();
 	filter["Группа2"] = $("#select-group2").find("option:selected").text();
 	filter["Группа3"] = $("#select-group3").find("option:selected").text();
@@ -460,7 +464,8 @@ function goodsClick() {
 	ws.executeAvailableFiltersSoapRequest(current_user.getCurrentLegalEntity(), JSON.stringify(filter), onErrorSoapRequest, onSuccessAvailableFiltersSoapRequest);
 	ws.executeTreeBalanceSoapRequest(current_user.getCurrentLegalEntity(), JSON.stringify(filter), onErrorSoapRequest, onSuccessTreeBalanceSoapRequest);
 
-	// Включить обработчики событий изменения фильтров цены и признака наличия на складе.
+	// Включить обработчики событий изменения флага отображения кода, фильтров цены и признака наличия на складе.
+	$('#show-code').on("change", onChangeFilter2);
 	$('#filter-price-from').on("change", onChangeFilter2);
 	$('#filter-price-to').on("change", onChangeFilter2);
 	$('#in-stock').on("change", onChangeFilter2);
@@ -909,6 +914,7 @@ $(document).ready(function () {
 
 		filter = {};
 		filter["Подразделение"] = current_order.getCurrentCity();
+		filter["ПоказатьКод"] = $("#show-code").prop("checked");
 		filter["Группа1"] = $("#select-group1").find("option:selected").text();
 		filter["Группа2"] = $("#select-group2").find("option:selected").text();
 		filter["Группа3"] = $("#select-group3").find("option:selected").text();
