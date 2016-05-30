@@ -37,7 +37,7 @@ Goods.prototype.setGoods = function (goods) {
 	}
 };
 
-Goods.prototype.appendSubItems = function (items, stocks, level, basket_items, goods_column_width) {
+Goods.prototype.appendSubItems = function (items, stocks, level, basket_items, showPositionCode, goods_column_width) {
 	var tr, index, item, subItems, itemDescription, currentPadding, item_count_in_basket;
 
 	//console.log(JSON.stringify(basket_items));
@@ -52,13 +52,13 @@ Goods.prototype.appendSubItems = function (items, stocks, level, basket_items, g
 		subItems = item["МассивВеток"];
 
 		if (item["ЭтоГруппа"]) {
-			tr +=
-				'<tr>' +
-				'	<td>' + item["КодПозиции"] + '</td>' +
-				'	<td style="width: ' + (goods_column_width - 1) + 'px;' + currentPadding + '">' + item["Товар"] + '</td>';
+			tr += '<tr>';
+			if (showPositionCode === true) {
+				tr += '	<td>' + item["КодПозиции"] + '</td>';
+			}
+			tr += '	<td style="width: ' + (goods_column_width - 1) + 'px;' + currentPadding + '">' + item["Товар"] + '</td>';
 			$(stocks).each(function (index, stock) {
-				tr +=
-					'	<td style="' + stock.style + '"></td>';
+				tr += '	<td style="' + stock.style + '"></td>';
 			});
 
 			tr +=
@@ -71,8 +71,12 @@ Goods.prototype.appendSubItems = function (items, stocks, level, basket_items, g
 				'</tr>';
 		} else {
 			tr +=
-				'<tr code="' + item["Код"] + '">' +
-				'	<td>' + item["КодПозиции"] + '</td>' +
+				'<tr code="' + item["Код"] + '">';
+			if (showPositionCode === true) {
+				tr +=
+					'	<td>' + item["КодПозиции"] + '</td>';
+			}
+			tr +=
 				'	<td style="width: ' + (goods_column_width - 1) + 'px;' + currentPadding + '">' + item["Товар"] + '</td>';
 			$(stocks).each(function (index, stock) {
 				tr +=
@@ -104,7 +108,7 @@ Goods.prototype.appendSubItems = function (items, stocks, level, basket_items, g
 
 		if ((subItems !== null) && (subItems !== undefined)) {
 			if (subItems.length > 0) {
-				tr += Goods.prototype.appendSubItems(subItems, stocks, level + 15, basket_items, goods_column_width);
+				tr += Goods.prototype.appendSubItems(subItems, stocks, level + 15, basket_items, showPositionCode, goods_column_width);
 			}
 		}
 	}
@@ -112,8 +116,10 @@ Goods.prototype.appendSubItems = function (items, stocks, level, basket_items, g
 	return tr;
 };
 
-Goods.prototype.getGoodsTableView = function (basket_items, maxWidth) {
+Goods.prototype.getGoodsTableView = function (basket_items, showPositionCode, maxWidth) {
 	var table, goods_column_width, stock_column_name, pos;
+
+	console.log("showPositionCode = " + showPositionCode);
 
 	// Определение ширин.
 	goods_column_width = maxWidth - ((100 * this.stocks.length) + 100 + 100 + 83);
@@ -123,9 +129,11 @@ Goods.prototype.getGoodsTableView = function (basket_items, maxWidth) {
 //	table = '<table id="tree-table-goods" border="0" cellpadding="0" cellspacing="0" width="100%" class="scrollTable">' +
 		'	<thead>' +
 //		'	<thead class="fixedHeader">' +
-		'		<tr>' +
-		'			<th>Код позиции</th>' +
-		'			<th style="width: ' + (goods_column_width - 1) + 'px">Товар</th>';
+		'		<tr>';
+	if (showPositionCode === true) {
+		table += '			<th>Код позиции</th>';
+	}
+	table += '			<th style="width: ' + (goods_column_width - 1) + 'px">Товар</th>';
 	$(this.stocks).each(function (index, stock) {
 		stock_column_name = stock.name;
 		pos = stock_column_name.toLowerCase().indexOf('колонкасклада_');
@@ -149,7 +157,7 @@ Goods.prototype.getGoodsTableView = function (basket_items, maxWidth) {
 		'	</thead>' +
 		'	<tbody>' +
 //		'	<tbody id="scroll-table-goods" class="scrollContent">' +
-		Goods.prototype.appendSubItems(this.goods, this.stocks, 5, basket_items, goods_column_width) +
+		Goods.prototype.appendSubItems(this.goods, this.stocks, 5, basket_items, showPositionCode, goods_column_width) +
 		'	</tbody>' +
 		'</table>';
 

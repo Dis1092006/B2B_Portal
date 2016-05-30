@@ -48,22 +48,14 @@ function updateVisiblity(containerName) {
 	}
 }
 
-function onSuccessTreeBalanceSoapRequest(data, status, req) {
-	var resultText, result, Goods, tree;
+function updateGoodsTable() {
+	var tree, showPositionCode;
 
-	resultText = $(req.responseText).find("m\\:return").html();
-	console.log(resultText);
-	result = JSON.parse(resultText);
+	showPositionCode = $("#show-position-code").prop("checked");
 
-	Goods = require('./goods');
-	current_goods = new Goods();
-
-	current_goods.setGoods(result);
-
-	// Вывести полученные данные.
 	tree = $("#tree-goods");
 	tree.empty();
-	tree.append(current_goods.getGoodsTableView(current_order.getItems(), document.body.clientWidth - 62));
+	tree.append(current_goods.getGoodsTableView(current_order.getItems(), showPositionCode, document.body.clientWidth - 62));
 
 	//$('#tree-table-goods a.count').editable({
 	//	mode: 'inline',
@@ -113,6 +105,8 @@ function onSuccessTreeBalanceSoapRequest(data, status, req) {
 		if (current_code !== undefined) {
 			first_column = selected_row.find("td:first");
 			price_column = first_column.next();
+			if (showPositionCode === true)
+				price_column = price_column.next();
 			$(current_goods.stocks).each(function (index, stock) {
 				price_column = price_column.next();
 			});
@@ -133,8 +127,22 @@ function onSuccessTreeBalanceSoapRequest(data, status, req) {
 			updateBasket();
 		}
 	});
+}
 
-//	$(window).resize();
+function onSuccessTreeBalanceSoapRequest(data, status, req) {
+	var resultText, result, Goods;
+
+	resultText = $(req.responseText).find("m\\:return").html();
+	//console.log(resultText);
+	result = JSON.parse(resultText);
+
+	Goods = require('./goods');
+	current_goods = new Goods();
+
+	current_goods.setGoods(result);
+
+	// Вывести полученные данные.
+	updateGoodsTable();
 }
 
 function fill_cities(cities_array) {
@@ -217,7 +225,6 @@ function onChangedCity() {
 
 	filter = {};
 	filter["Подразделение"] = current_order.getCurrentCity();
-	filter["ПоказатьКод"] = $("#show-code").prop("checked");
 	filter["Группа1"] = $("#select-group1").find("option:selected").text();
 	filter["Группа2"] = $("#select-group2").find("option:selected").text();
 	filter["Группа3"] = $("#select-group3").find("option:selected").text();
@@ -244,12 +251,17 @@ function onChangeCity() {
 	}
 }
 
+// Смена признака отображения кода позиции товара.
+function onChangeShowPositionCode() {
+	// Обновить таблицу товаров.
+	updateGoodsTable();
+}
+
 function onChangeFilter1() {
 	var filter, WS, ws;
 
 	filter = {};
 	filter["Подразделение"] = current_order.getCurrentCity();
-	filter["ПоказатьКод"] = $("#show-code").prop("checked");
 	filter["Группа1"] = $("#select-group1").find("option:selected").text();
 	filter["Группа2"] = $("#select-group2").find("option:selected").text();
 	filter["Группа3"] = $("#select-group3").find("option:selected").text();
@@ -272,7 +284,6 @@ function onChangeFilter2() {
 
 	filter = {};
 	filter["Подразделение"] = current_order.getCurrentCity();
-	filter["ПоказатьКод"] = $("#show-code").prop("checked");
 	filter["Группа1"] = $("#select-group1").find("option:selected").text();
 	filter["Группа2"] = $("#select-group2").find("option:selected").text();
 	filter["Группа3"] = $("#select-group3").find("option:selected").text();
@@ -446,7 +457,6 @@ function goodsClick() {
 	filter = {};
 
 	filter["Подразделение"] = current_order.getCurrentCity();
-	filter["ПоказатьКод"] = $("#show-code").prop("checked");
 	filter["Группа1"] = $("#select-group1").find("option:selected").text();
 	filter["Группа2"] = $("#select-group2").find("option:selected").text();
 	filter["Группа3"] = $("#select-group3").find("option:selected").text();
@@ -464,8 +474,10 @@ function goodsClick() {
 	ws.executeAvailableFiltersSoapRequest(current_user.getCurrentLegalEntity(), JSON.stringify(filter), onErrorSoapRequest, onSuccessAvailableFiltersSoapRequest);
 	ws.executeTreeBalanceSoapRequest(current_user.getCurrentLegalEntity(), JSON.stringify(filter), onErrorSoapRequest, onSuccessTreeBalanceSoapRequest);
 
-	// Включить обработчики событий изменения флага отображения кода, фильтров цены и признака наличия на складе.
-	$('#show-code').on("change", onChangeFilter2);
+	// Включить обработчик событий изменения флага отображения кода позиции.
+	$('#show-position-code').on("change", onChangeShowPositionCode);
+
+	// Включить обработчики событий фильтров цены и признака наличия на складе.
 	$('#filter-price-from').on("change", onChangeFilter2);
 	$('#filter-price-to').on("change", onChangeFilter2);
 	$('#in-stock').on("change", onChangeFilter2);
@@ -914,7 +926,6 @@ $(document).ready(function () {
 
 		filter = {};
 		filter["Подразделение"] = current_order.getCurrentCity();
-		filter["ПоказатьКод"] = $("#show-code").prop("checked");
 		filter["Группа1"] = $("#select-group1").find("option:selected").text();
 		filter["Группа2"] = $("#select-group2").find("option:selected").text();
 		filter["Группа3"] = $("#select-group3").find("option:selected").text();
