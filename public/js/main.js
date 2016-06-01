@@ -672,8 +672,11 @@ function onSuccessInfUserSoapRequest(data, status, req) {
 function onSuccessLoginSoapRequest(data, status, req) {
 	var resultText, WS, ws;
 
+	console.log("onSuccessLoginSoapRequest, data = " + data);
+
 	//resultText = $(req.responseText).find("m\\:return").html();
-	resultText = data.userId;
+	resultText = JSON.parse(data).userId;
+	console.log("onSuccessLoginSoapRequest, resultText = " + resultText);
 
 	// В случае успешного входа отобразить логин пользователя.
 	onSuccessfullLogin(current_login, resultText);
