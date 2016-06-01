@@ -672,7 +672,8 @@ function onSuccessInfUserSoapRequest(data, status, req) {
 function onSuccessLoginSoapRequest(data, status, req) {
 	var resultText, WS, ws;
 
-	resultText = $(req.responseText).find("m\\:return").html();
+	//resultText = $(req.responseText).find("m\\:return").html();
+	resultText = data.userId;
 
 	// В случае успешного входа отобразить логин пользователя.
 	onSuccessfullLogin(current_login, resultText);
@@ -700,16 +701,17 @@ function onSuccessLoginSoapRequest(data, status, req) {
 }
 
 function onErrorLoginSoapRequest(data, status, req) {
-	var resultText;
+	//var resultText;
 
 	$("#login-text").html('');
 	$("#basket").html('<span class="glyphicon glyphicon-shopping-cart"></span>');
 	updateVisiblity('');
 	updateEnabledDisabled(false);
 
-	resultText = $(data.responseText).find("faultstring").html();
+	//resultText = $(data.responseText).find("faultstring").html();
 
-	$("#error-login-text").html(data.status + ' ' + data.statusText + ' ' + resultText);
+//	$("#error-login-text").html(data.status + ' ' + data.statusText + ' ' + resultText);
+	$("#error-login-text").html(data.message + ' ' + data.error);
 
 	$('#error-login-modal').modal();
 }

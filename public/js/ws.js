@@ -2,41 +2,59 @@
 /*jslint node: true*/
 /*jslint browser: true*/
 "use strict";
+var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
 function WS() {
 
 }
 
 WS.prototype.executeLoginSoapRequest = function (userName, password, processError, processSuccess) {
-	var wsUrl, soapRequest, request;
+	var wsUrl, body, xhr;
 
-	console.log('executeLoginSoapRequest, window.location.host = ' + window.location.host);
+	//wsUrl = 'http://localhost:8000/Portal_TEST/user/login';
+	wsUrl = 'https://torg-b2b.ru/Portal_TEST/user/login';
 
-	//wsUrl = 'https://' + window.location.host + '/B2B/ws/Authorization';
-	wsUrl = 'https://torg-b2b.ru/B2B_TEST/ws/Authorization';
-	soapRequest =
-		'<?xml version="1.0" encoding="utf-8"?>' +
-		'<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:mik="http://www.mik_b2b.ru/">' +
-		'   <soap:Header/>' +
-		'   <soap:Body>' +
-		'      <mik:Login>' +
-		'         <mik:Username>' + userName + '</mik:Username>' +
-		'         <mik:Password>' + password + '</mik:Password>' +
-		'     </mik:Login>' +
-		'   </soap:Body>' +
-		'</soap:Envelope>';
-
-	request = $.ajax({
-		type: "POST",
-		url: wsUrl,
-		contentType: "text/xml",
-		dataType: "xml",
-		username: userName,
-		password: password,
-		data: soapRequest,
-		error: processError,
-		success: processSuccess
+	body = JSON.stringify({
+		login: userName,
+		password: password
 	});
+	xhr = new XMLHttpRequest();
+	xhr.onreadystatechange = function () {
+		if (xhr.readyState === 4) {
+			console.log('executeLoginSoapRequest, xhr.responseText = ' + xhr.responseText);
+			if (xhr.status === 200)
+				processSuccess(xhr.responseText, xhr.status, xhr.request);
+			else
+				processError(xhr.responseText, xhr.status, xhr.request);
+		}
+	}
+	xhr.open("POST", wsUrl, true, userName, password);
+	xhr.setRequestHeader( "Content-Type","application/json; charset=utf-8");
+	xhr.send(body);
+
+	// soapRequest =
+	// 	'<?xml version="1.0" encoding="utf-8"?>' +
+	// 	'<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:mik="http://www.mik_b2b.ru/">' +
+	// 	'   <soap:Header/>' +
+	// 	'   <soap:Body>' +
+	// 	'      <mik:Login>' +
+	// 	'         <mik:Username>' + userName + '</mik:Username>' +
+	// 	'         <mik:Password>' + password + '</mik:Password>' +
+	// 	'     </mik:Login>' +
+	// 	'   </soap:Body>' +
+	// 	'</soap:Envelope>';
+	//
+	// request = $.ajax({
+	// 	type: "POST",
+	// 	url: wsUrl,
+	// 	contentType: "text/xml",
+	// 	dataType: "xml",
+	// 	username: userName,
+	// 	password: password,
+	// 	data: soapRequest,
+	// 	error: processError,
+	// 	success: processSuccess
+	// });
 };
 
 WS.prototype.executeInfUserSoapRequest = function (idUser, processError, processSuccess) {
