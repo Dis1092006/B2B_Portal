@@ -74,6 +74,13 @@ body.loading .waiting-modal {
 	padding: 7px 9px;
 }
 
+/* Таблица товаров */
+.table input {
+	font-size: 10px;
+	padding-top: 0;
+	padding-bottom: 0;
+}
+
 /* Таблица заказа */
 .order-table {
 	table-layout: inherit;
