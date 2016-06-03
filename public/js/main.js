@@ -253,8 +253,14 @@ function onChangeCity() {
 
 // Смена признака отображения кода позиции товара.
 function onChangeShowPositionCode() {
+	// Начало длительного обновления.
+	$("body").addClass("loading");
+
 	// Обновить таблицу товаров.
 	updateGoodsTable();
+
+	// Завершение длительного обновления.
+	$("body").removeClass("loading");
 }
 
 function onChangeFilter1() {
@@ -870,6 +876,30 @@ function onSuccessModifyOrder(data, status, req) {
 	console.log(result);
 }
 
+function doSearch(text) {
+	var sel;
+	if (window.find && window.getSelection) {
+		sel = window.getSelection();
+		if (sel.rangeCount > 0) {
+			sel.collapseToEnd();
+		}
+		window.find(text);
+	} else if (document.selection && document.body.createTextRange) {
+		sel = document.selection;
+		var textRange;
+		if (sel.type == "Text") {
+			textRange = sel.createRange();
+			textRange.collapse(false);
+		} else {
+			textRange = document.body.createTextRange();
+			textRange.collapse(true);
+		}
+		if (textRange.findText(text)) {
+			textRange.select();
+		}
+	}
+}
+
 $(document).on({
 	ajaxStart: function () {
 		$("body").addClass("loading");
@@ -995,5 +1025,9 @@ $(document).ready(function () {
 			}
 		}
 	}
+
+	$("#search-button").click(function () {
+		doSearch( document.getElementById("search-text").value );
+	});
 
 });
