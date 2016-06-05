@@ -57,6 +57,9 @@ function updateGoodsTable() {
 	tree.empty();
 	tree.append(current_goods.getGoodsTableView(current_order.getItems(), showPositionCode, document.body.clientWidth - 62));
 
+	// Включить быстрый поиск по таблице.
+	$('input#search-text').quicksearch('table#tree-table-goods tbody tr');
+
 	//$('#tree-table-goods a.count').editable({
 	//	mode: 'inline',
 	//	type: 'text',
@@ -1025,9 +1028,4 @@ $(document).ready(function () {
 			}
 		}
 	}
-
-	$("#search-button").click(function () {
-		doSearch( document.getElementById("search-text").value );
-	});
-
 });
