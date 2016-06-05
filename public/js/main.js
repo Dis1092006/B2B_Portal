@@ -1028,4 +1028,9 @@ $(document).ready(function () {
 			}
 		}
 	}
+
+	$("#search-remove-button").click(function () {
+		$('input#search-text').val('');
+		$('input#search-text').quicksearch('table#tree-table-goods tbody tr');
+	});
 });
