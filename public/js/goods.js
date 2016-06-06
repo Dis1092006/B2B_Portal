@@ -40,8 +40,6 @@ Goods.prototype.setGoods = function (goods) {
 Goods.prototype.appendSubItems = function (items, stocks, level, basket_items, showPositionCode, goods_column_width) {
 	var tr, index, item, subItems, itemDescription, currentPadding, item_count_in_basket;
 
-	//console.log(JSON.stringify(basket_items));
-
 	currentPadding = 'padding-left: ' + level + 'px';
 
 	tr = '';
@@ -101,8 +99,6 @@ Goods.prototype.appendSubItems = function (items, stocks, level, basket_items, s
 				'	<td><input type="text" value="1" size="5"></td>' +
 				'	<td><a class="basket-picture"><span class="glyphicon glyphicon-arrow-right"></span></a></td>' +
 				'	<td>' + item_count_in_basket + '</td>' +
-				//'	<td style="width: 100px"><a class="count" href="#" data-pk="' + level + '.' + index + '">0</td>' +
-				//'	<td style="width: 100px"><a class="basket-picture"><span class="glyphicon glyphicon-shopping-cart"></span></a></td>' +
 				'</tr>';
 		}
 
@@ -125,10 +121,7 @@ Goods.prototype.getGoodsTableView = function (basket_items, showPositionCode, ma
 	goods_column_width = maxWidth - ((100 * this.stocks.length) + 100 + 100 + 83);
 
 	table = '<table id="tree-table-goods" class="table table-bordered table-condensed">' +
-//	table = '<table id="tree-table-goods" class="scrollTable">' +
-//	table = '<table id="tree-table-goods" border="0" cellpadding="0" cellspacing="0" width="100%" class="scrollTable">' +
 		'	<thead>' +
-//		'	<thead class="fixedHeader">' +
 		'		<tr>';
 	if (showPositionCode === true) {
 		table += '			<th>Код позиции</th>';
@@ -156,7 +149,6 @@ Goods.prototype.getGoodsTableView = function (basket_items, showPositionCode, ma
 		'		</tr>' +
 		'	</thead>' +
 		'	<tbody>' +
-//		'	<tbody id="scroll-table-goods" class="scrollContent">' +
 		Goods.prototype.appendSubItems(this.goods, this.stocks, 5, basket_items, showPositionCode, goods_column_width) +
 		'	</tbody>' +
 		'</table>';

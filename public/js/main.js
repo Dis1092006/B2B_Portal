@@ -57,6 +57,9 @@ function updateGoodsTable() {
 	tree.empty();
 	tree.append(current_goods.getGoodsTableView(current_order.getItems(), showPositionCode, document.body.clientWidth - 62));
 
+	// Включить быстрый поиск по таблице.
+	$('input#search-text').quicksearch('table#tree-table-goods tbody tr');
+
 	//$('#tree-table-goods a.count').editable({
 	//	mode: 'inline',
 	//	type: 'text',
@@ -1027,7 +1030,29 @@ $(document).ready(function () {
 	}
 
 	$("#search-button").click(function () {
-		doSearch( document.getElementById("search-text").value );
+		doSearch(document.getElementById("search-text").value);
+	});
+
+	$('input#id_search').quicksearch('table#table_example tbody tr');
+
+	$('#searcher').quicksearch('table#tree-table-goods tbody tr', {
+		'delay': 300,
+		'selector': 'th',
+		'stripeRows': ['odd', 'even'],
+		'loader': 'span.loading',
+		'bind': 'keyup click input',
+		'show': function () {
+			this.style.color = '';
+		},
+		'hide': function () {
+			this.style.color = '#ccc';
+		},
+		'prepareQuery': function (val) {
+			return new RegExp(val, "i");
+		},
+		'testQuery': function (query, txt, _row) {
+			return query.test(txt);
+		}
 	});
 
 });

@@ -42,6 +42,8 @@ router.post('/login', function (req, res, next) {
 function executeLoginSoapRequest(userName, password, processError, processSuccess) {
 	var wsUrl, wsUser, wsPassword, soapRequest, xhr;
 
+	console.log('Server.executeLoginSoapRequest');
+
 	wsUrl = 'https://torg-b2b.ru/B2B_TEST/ws/Authorization';
 	//wsUrl = 'https://' + window.location.host + '/B2B/ws/Authorization';
 	wsUser = 'web_user';
@@ -63,6 +65,7 @@ function executeLoginSoapRequest(userName, password, processError, processSucces
 	xhr.onreadystatechange = function () {
 		if (xhr.readyState === 4) {
 			//var resp = unescape(xhr.responseText);
+			console.log('Server.executeLoginSoapRequest, xhr.status = ' + xhr.status);
 			if (xhr.status === 200)
 				processSuccess(xhr.responseText, xhr.status, xhr.request);
 			else
