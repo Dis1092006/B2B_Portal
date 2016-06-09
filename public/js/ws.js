@@ -12,7 +12,7 @@ WS.prototype.executeLoginSoapRequest = function (userName, password, processErro
 	var wsUrl, body, xhr;
 
 	//wsUrl = 'http://localhost:8000/Portal_TEST/user/login';
-	wsUrl = 'https://torg-b2b.ru/Portal_TEST/user/login';
+	wsUrl = 'https://torg-b2b.ru/Portal/user/login';
 
 	body = JSON.stringify({
 		login: userName,
@@ -61,7 +61,7 @@ WS.prototype.executeInfUserSoapRequest = function (idUser, processError, process
 	var wsUrl, wsUser, wsPassword, soapRequest, request;
 
 	//wsUrl = 'https://' + window.location.host + '/B2B/ws/Authorization';
-	wsUrl = 'https://torg-b2b.ru/B2B_TEST/ws/Authorization';
+	wsUrl = 'https://torg-b2b.ru/B2B/ws/Authorization';
 	wsUser = 'web_user';
 	wsPassword = 'WebU$er';
 
@@ -93,7 +93,7 @@ WS.prototype.executeInfUserTextSoapRequest = function (idUser, processError, pro
 	var wsUrl, wsUser, wsPassword, soapRequest, request;
 
 	//wsUrl = 'https://' + window.location.host + '/B2B/ws/Authorization';
-	wsUrl = 'https://torg-b2b.ru/B2B_TEST/ws/Authorization';
+	wsUrl = 'https://torg-b2b.ru/B2B/ws/Authorization';
 	wsUser = 'web_user';
 	wsPassword = 'WebU$er';
 	soapRequest =
@@ -124,7 +124,7 @@ WS.prototype.executeInfContactsSoapRequest = function (idUser, processError, pro
 	var wsUrl, wsUser, wsPassword, soapRequest, request;
 
 	//wsUrl = 'https://' + window.location.host + '/B2B/ws/Authorization';
-	wsUrl = 'https://torg-b2b.ru/B2B_TEST/ws/Authorization';
+	wsUrl = 'https://torg-b2b.ru/B2B/ws/Authorization';
 	wsUser = 'web_user';
 	wsPassword = 'WebU$er';
 	soapRequest =
@@ -155,7 +155,7 @@ WS.prototype.executeAvailableFiltersSoapRequest = function (legal_entity, filter
 	var wsUrl, wsUser, wsPassword, soapRequest, request;
 
 	//wsUrl = 'https://' + window.location.host + '/B2B/ws/Authorization';
-	wsUrl = 'https://torg-b2b.ru/B2B_TEST/ws/Authorization';
+	wsUrl = 'https://torg-b2b.ru/B2B/ws/Authorization';
 	wsUser = 'web_user';
 	wsPassword = 'WebU$er';
 
@@ -188,7 +188,7 @@ WS.prototype.executeTreeBalanceSoapRequest = function (legal_entity, filter, pro
 	var wsUrl, wsUser, wsPassword, soapRequest, request;
 
 	//wsUrl = 'https://' + window.location.host + '/B2B/ws/Authorization';
-	wsUrl = 'https://torg-b2b.ru/B2B_TEST/ws/Authorization';
+	wsUrl = 'https://torg-b2b.ru/B2B/ws/Authorization';
 	wsUser = 'web_user';
 	wsPassword = 'WebU$er';
 
@@ -221,7 +221,7 @@ WS.prototype.executePictures = function (idProduct, processError, processSuccess
 	var wsUrl, wsUser, wsPassword, soapRequest, request;
 
 	//wsUrl = 'https://' + window.location.host + '/B2B/ws/Authorization';
-	wsUrl = 'https://torg-b2b.ru/B2B_TEST/ws/Authorization';
+	wsUrl = 'https://torg-b2b.ru/B2B/ws/Authorization';
 	wsUser = 'web_user';
 	wsPassword = 'WebU$er';
 
@@ -253,7 +253,7 @@ WS.prototype.executeMainOrder = function (order, processError, processSuccess) {
 	var wsUrl, wsUser, wsPassword, soapRequest, request;
 
 	//wsUrl = 'https://' + window.location.host + '/B2B/ws/Authorization';
-	wsUrl = 'https://torg-b2b.ru/B2B_TEST/ws/Authorization';
+	wsUrl = 'https://torg-b2b.ru/B2B/ws/Authorization';
 	wsUser = 'web_user';
 	wsPassword = 'WebU$er';
 
@@ -285,7 +285,7 @@ WS.prototype.executeStatusOrderSoapRequest = function (idSession, processError, 
 	var wsUrl, wsUser, wsPassword, soapRequest, request;
 
 	//wsUrl = 'https://' + window.location.host + '/B2B/ws/Authorization';
-	wsUrl = 'https://torg-b2b.ru/B2B_TEST/ws/Authorization';
+	wsUrl = 'https://torg-b2b.ru/B2B/ws/Authorization';
 	wsUser = 'web_user';
 	wsPassword = 'WebU$er';
 	
@@ -317,7 +317,7 @@ WS.prototype.executeModifiedOrder = function (order, processError, processSucces
 	var wsUrl, wsUser, wsPassword, soapRequest, request;
 
 	//wsUrl = 'https://' + window.location.host + '/B2B/ws/Authorization';
-	wsUrl = 'https://torg-b2b.ru/B2B_TEST/ws/Authorization';
+	wsUrl = 'https://torg-b2b.ru/B2B/ws/Authorization';
 	wsUser = 'web_user';
 	wsPassword = 'WebU$er';
 

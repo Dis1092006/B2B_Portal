@@ -28,7 +28,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use('/Portal_TEST', express.static(path.join(__dirname, 'public')));
+app.use('/Portal', express.static(path.join(__dirname, 'public')));
 
 app.use(function(req, res, next) {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -39,10 +39,10 @@ app.use(function(req, res, next) {
 // Временно, для отладки.
 app.use(cors());
 
-app.use('/Portal_TEST/orders', ordersRoutes);
-app.use('/Portal_TEST/goods', goodsRoutes);
-app.use('/Portal_TEST/user', usersRoutes);
-app.use('/Portal_TEST/', appRoutes);
+app.use('/Portal/orders', ordersRoutes);
+app.use('/Portal/goods', goodsRoutes);
+app.use('/Portal/user', usersRoutes);
+app.use('/Portal/', appRoutes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

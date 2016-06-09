@@ -46,7 +46,7 @@ router.get('/', function(req, res, next) {
 function executeTreeBalanceSoapRequest(legal_entity, filter, processError, processSuccess) {
 	var wsUrl, wsUser, wsPassword, soapRequest, xhr;
 
-	wsUrl = 'https://torg-b2b.ru/B2B_TEST/ws/Authorization';
+	wsUrl = 'https://torg-b2b.ru/B2B/ws/Authorization';
 	//wsUrl = 'https://' + window.location.host + '/B2B/ws/Authorization';
 	wsUser = 'web_user';
 	wsPassword = 'WebU$er';
