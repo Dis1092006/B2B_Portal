@@ -20,11 +20,17 @@ var app = express();
 cors = require('cors');
 
 // view engine setup
-//app.set('views', path.join(__dirname, 'public'));
-app.engine('.hbs', expressHbs({defaultLayout: 'layout', extname: '.hbs'}));
+app.set('views',  path.join(__dirname, 'views/'));
+app.engine(
+	'.hbs',
+	expressHbs({
+		layoutsDir: path.join(__dirname, 'views/layouts'),
+		partialsDir:  path.join(__dirname, 'views/partials'),
+		defaultLayout: 'layout',
+		extname: '.hbs'
+	})
+);
 app.set('view engine', '.hbs');
-
-console.log('__dirname = ' + __dirname);
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
