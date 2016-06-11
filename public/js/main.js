@@ -437,8 +437,9 @@ function onSuccessInfUserTextSoapRequest(data, status, req) {
 function onSuccessInfContactsSoapRequest(data, status, req) {
 	var resultText, result, text, panel;
 
-	resultText = $(req.responseText).find("m\\:return").html();
-	result = JSON.parse(resultText);
+	//resultText = $(req.responseText).find("m\\:return").html();
+	resultText = JSON.parse(data);
+	result = JSON.parse(resultText.obj);
 
 	text =
 		'<div class="panel-body">' +
