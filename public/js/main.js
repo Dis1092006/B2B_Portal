@@ -385,7 +385,8 @@ function onSuccessStatusOrderSoapRequest(data, status, req) {
 function onSuccessInfUserTextSoapRequest(data, status, req) {
 	var resultText, result, text, legal_entity_description, debt_information, panel;
 
-	resultText = $(req.responseText).find("m\\:return").html();
+	//resultText = $(req.responseText).find("m\\:return").html();
+	resultText = JSON.parse(data).obj;
 	result = JSON.parse(resultText);
 
 	text = '';
@@ -558,7 +559,7 @@ function onSuccessfullLogin(userLogin, userID) {
 
 	var User, enterButton, exitButton;
 
-	$("#login-text").html("Логин: " + userLogin);
+	$("#login-text").html('<span class="glyphicon glyphicon-user"></span> Логин: ' + userLogin + '<span class="caret"></span>');
 
 	User = require('./user');
 	current_user = new User(userLogin, userID);
@@ -610,9 +611,9 @@ function onChangeLegalEntity() {
 function onSuccessInfUserSoapRequest(data, status, req) {
 	var resultText, result, debt_timeout_text, legal_entities, outlets, temp, select;
 
-	resultText = $(req.responseText).find("m\\:return").html();
+	//resultText = $(req.responseText).find("m\\:return").html();
+	resultText = JSON.parse(data).obj;
 	result = JSON.parse(resultText);
-	console.log(resultText);
 
 	// Заполнить список городов текущего пользователя.
 	current_user.cities = [];
@@ -679,19 +680,23 @@ function onSuccessInfUserSoapRequest(data, status, req) {
 }
 
 function onSuccessLoginSoapRequest(data, status, req) {
-	var resultText, WS, ws;
+	var loginResult, WS, ws;
 
 	console.log("onSuccessLoginSoapRequest, data = " + data);
 
+	loginResult = JSON.parse(data);
+
+	localStorage.setItem('token', loginResult.token);
+	localStorage.setItem('userId', loginResult.userId);
+
 	//resultText = $(req.responseText).find("m\\:return").html();
-	resultText = JSON.parse(data).userId;
-	console.log("onSuccessLoginSoapRequest, resultText = " + resultText);
+	console.log("onSuccessLoginSoapRequest, loginResult.userId = " + loginResult.userId);
 
 	// В случае успешного входа отобразить логин пользователя.
-	onSuccessfullLogin(current_login, resultText);
+	onSuccessfullLogin(current_login, loginResult.userId);
 
 	// Пишем в куку
-	$.cookie('userID', resultText, {
+	$.cookie('userID', loginResult.userId, {
 		expires: 1,
 		path: '/'
 	});
@@ -709,7 +714,7 @@ function onSuccessLoginSoapRequest(data, status, req) {
 	// Запросить информацию о пользователе.
 	WS = require('./ws');
 	ws = new WS();
-	ws.executeInfUserSoapRequest(resultText, onErrorSoapRequest, onSuccessInfUserSoapRequest);
+	ws.executeInfUserSoapRequest(loginResult.userId, onErrorSoapRequest, onSuccessInfUserSoapRequest);
 }
 
 function onErrorLoginSoapRequest(data, status, req) {
@@ -879,30 +884,6 @@ function onSuccessModifyOrder(data, status, req) {
 	console.log(result);
 }
 
-function doSearch(text) {
-	var sel;
-	if (window.find && window.getSelection) {
-		sel = window.getSelection();
-		if (sel.rangeCount > 0) {
-			sel.collapseToEnd();
-		}
-		window.find(text);
-	} else if (document.selection && document.body.createTextRange) {
-		sel = document.selection;
-		var textRange;
-		if (sel.type == "Text") {
-			textRange = sel.createRange();
-			textRange.collapse(false);
-		} else {
-			textRange = document.body.createTextRange();
-			textRange.collapse(true);
-		}
-		if (textRange.findText(text)) {
-			textRange.select();
-		}
-	}
-}
-
 $(document).on({
 	ajaxStart: function () {
 		$("body").addClass("loading");
@@ -1029,30 +1010,8 @@ $(document).ready(function () {
 		}
 	}
 
-	$("#search-button").click(function () {
-		doSearch(document.getElementById("search-text").value);
+	$("#search-remove-button").click(function () {
+		$('input#search-text').val('');
+		$('input#search-text').quicksearch('table#tree-table-goods tbody tr');
 	});
-
-	$('input#id_search').quicksearch('table#table_example tbody tr');
-
-	$('#searcher').quicksearch('table#tree-table-goods tbody tr', {
-		'delay': 300,
-		'selector': 'th',
-		'stripeRows': ['odd', 'even'],
-		'loader': 'span.loading',
-		'bind': 'keyup click input',
-		'show': function () {
-			this.style.color = '';
-		},
-		'hide': function () {
-			this.style.color = '#ccc';
-		},
-		'prepareQuery': function (val) {
-			return new RegExp(val, "i");
-		},
-		'testQuery': function (query, txt, _row) {
-			return query.test(txt);
-		}
-	});
-
 });

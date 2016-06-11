@@ -39,6 +39,64 @@ router.post('/login', function (req, res, next) {
 
 });
 
+router.use('/', function(req, res, next) {
+	jwt.verify(req.query.token, 'b2b_user_key', function(err, decoded) {
+		if (err) {
+			return res.status(401).json({
+				message: 'Ошибка авторизации!',
+				error: err
+			});
+		}
+		next();
+	});
+});
+
+router.get('/profile/full', function(req, res, next) {
+
+	executeInfUserSoapRequest(
+		req.query.userId,
+		function (data, status, req) {
+			var xmlData = new XmlDocument(data);
+			var resultText = xmlData.valueWithPath('soap:Body.soap:Reason.soap:Text');
+			return res.status(status).json({
+				message: 'Ошибка!',
+				error: resultText
+			});
+		},
+		function (data, status, req) {
+			var xmlData = new XmlDocument(data);
+			var resultText = xmlData.valueWithPath('soap:Body.m:InfUserResponse.m:return');
+			return res.status(200).json({
+				message: 'Success',
+				obj: resultText
+			});
+		}
+	);
+});
+
+router.get('/profile/short', function(req, res, next) {
+
+	executeInfUserTextSoapRequest(
+		req.query.userId,
+		function (data, status, req) {
+			var xmlData = new XmlDocument(data);
+			var resultText = xmlData.valueWithPath('soap:Body.soap:Reason.soap:Text');
+			return res.status(status).json({
+				message: 'Ошибка!',
+				error: resultText
+			});
+		},
+		function (data, status, req) {
+			var xmlData = new XmlDocument(data);
+			var resultText = xmlData.valueWithPath('soap:Body.m:InfUserTextResponse.m:return');
+			return res.status(200).json({
+				message: 'Success',
+				obj: resultText
+			});
+		}
+	);
+});
+
 function executeLoginSoapRequest(userName, password, processError, processSuccess) {
 	var wsUrl, wsUser, wsPassword, soapRequest, xhr;
 
@@ -48,7 +106,7 @@ function executeLoginSoapRequest(userName, password, processError, processSucces
 	//wsUrl = 'https://' + window.location.host + '/B2B/ws/Authorization';
 	wsUser = 'web_user';
 	wsPassword = 'WebU$er';
-	
+
 	soapRequest =
 		'<?xml version="1.0" encoding="utf-8"?>' +
 		'<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:mik="http://www.mik_b2b.ru/">' +
@@ -74,6 +132,71 @@ function executeLoginSoapRequest(userName, password, processError, processSucces
 	}
 	//xhr.open("POST", wsUrl, true, wsUser, wsPassword);
 	xhr.open("POST", wsUrl, true, userName, password);
+	xhr.setRequestHeader( "Content-Type","text/xml; charset=utf-8");
+	xhr.send(soapRequest);
+};
+
+function executeInfUserSoapRequest(idUser, processError, processSuccess) {
+	var wsUrl, wsUser, wsPassword, soapRequest, xhr;
+
+	//wsUrl = 'https://' + window.location.host + '/B2B/ws/Authorization';
+	wsUrl = 'https://torg-b2b.ru/B2B_TEST/ws/Authorization';
+	wsUser = 'web_user';
+	wsPassword = 'WebU$er';
+
+	soapRequest =
+		'<?xml version="1.0" encoding="utf-8"?>' +
+		'<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:mik="http://www.mik_b2b.ru/">' +
+		'   <soap:Header/>' +
+		'   <soap:Body>' +
+		'      <mik:InfUser>' +
+		'          <mik:IdUser>' + idUser + '</mik:IdUser>' +
+		'     </mik:InfUser>' +
+		'   </soap:Body>' +
+		'</soap:Envelope>';
+
+	xhr = new XMLHttpRequest();
+	xhr.onreadystatechange = function () {
+		if (xhr.readyState === 4) {
+			if (xhr.status === 200)
+				processSuccess(xhr.responseText, xhr.status, xhr.request);
+			else
+				processError(xhr.responseText, xhr.status, xhr.request);
+		}
+	}
+	xhr.open("POST", wsUrl, true, wsUser, wsPassword);
+	xhr.setRequestHeader( "Content-Type","text/xml; charset=utf-8");
+	xhr.send(soapRequest);
+};
+
+function executeInfUserTextSoapRequest(idUser, processError, processSuccess) {
+	var wsUrl, wsUser, wsPassword, soapRequest, xhr;
+
+	//wsUrl = 'https://' + window.location.host + '/B2B/ws/Authorization';
+	wsUrl = 'https://torg-b2b.ru/B2B_TEST/ws/Authorization';
+	wsUser = 'web_user';
+	wsPassword = 'WebU$er';
+	soapRequest =
+		'<?xml version="1.0" encoding="utf-8"?>' +
+		'<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:mik="http://www.mik_b2b.ru/">' +
+		'   <soap:Header/>' +
+		'   <soap:Body>' +
+		'      <mik:InfUserText>' +
+		'          <mik:IdUser>' + idUser + '</mik:IdUser>' +
+		'      </mik:InfUserText>' +
+		'   </soap:Body>' +
+		'</soap:Envelope>';
+
+	xhr = new XMLHttpRequest();
+	xhr.onreadystatechange = function () {
+		if (xhr.readyState === 4) {
+			if (xhr.status === 200)
+				processSuccess(xhr.responseText, xhr.status, xhr.request);
+			else
+				processError(xhr.responseText, xhr.status, xhr.request);
+		}
+	}
+	xhr.open("POST", wsUrl, true, wsUser, wsPassword);
 	xhr.setRequestHeader( "Content-Type","text/xml; charset=utf-8");
 	xhr.send(soapRequest);
 };
