@@ -7,9 +7,22 @@
 var current_login, current_user, current_goods, current_order/*, modified_order*/;
 
 function onErrorSoapRequest(data, status, req) {
-	var resultText = $(data.responseText).find("faultstring").html();
+	var resultText = '';
 
-	alert('err ' + data.status + " " + data.statusText + " " + resultText);
+	console.log('onErrorSoapRequest');
+	console.log('data = ' + JSON.stringify(data));
+	console.log('status = ' + status);
+
+	if (data.status)
+		alert('err ' + data.status + " " + data.statusText + " " + resultText);
+	else if (data.responseJSON) {
+		resultText = JSON.parse(data.responseJSON);
+		alert(resultText);
+	}
+	else if (data.responseText) {
+		resultText = $(data.responseText).find("faultstring").html();
+		alert('err ' + data.status + " " + data.statusText + " " + resultText);
+	}
 }
 
 function updateVisiblity(containerName) {
@@ -133,11 +146,10 @@ function updateGoodsTable() {
 }
 
 function onSuccessTreeBalanceSoapRequest(data, status, req) {
-	var resultText, result, Goods;
+	var result, Goods;
 
-	resultText = $(req.responseText).find("m\\:return").html();
-	//console.log(resultText);
-	result = JSON.parse(resultText);
+	// resultText = $(req.responseText).find("m\\:return").html();
+	result = JSON.parse(data.obj);
 
 	Goods = require('./goods');
 	current_goods = new Goods();
@@ -177,12 +189,10 @@ function fill_filter(filter_array, filter_name) {
 }
 
 function onSuccessAvailableFiltersSoapRequest(data, status, req) {
-	var resultText, result, filter;
+	var result, filter;
 
-	resultText = $(req.responseText).find("m\\:return").html();
-	result = JSON.parse(resultText);
-
-//	console.log(resultText);
+	// resultText = $(req.responseText).find("m\\:return").html();
+	result = JSON.parse(data.obj);
 
 	// Запомнить текущие выбранные элементы фильтров.
 	filter = {};
@@ -383,11 +393,10 @@ function onSuccessStatusOrderSoapRequest(data, status, req) {
 }
 
 function onSuccessInfUserTextSoapRequest(data, status, req) {
-	var resultText, result, text, legal_entity_description, debt_information, panel;
+	var result, text, legal_entity_description, debt_information, panel;
 
 	//resultText = $(req.responseText).find("m\\:return").html();
-	resultText = JSON.parse(data).obj;
-	result = JSON.parse(resultText);
+	result = JSON.parse(data.obj);
 
 	text = '';
 	$(result).each(function (index1, item1) {
@@ -435,11 +444,10 @@ function onSuccessInfUserTextSoapRequest(data, status, req) {
 }
 
 function onSuccessInfContactsSoapRequest(data, status, req) {
-	var resultText, result, text, panel;
+	var result, text, panel;
 
 	//resultText = $(req.responseText).find("m\\:return").html();
-	resultText = JSON.parse(data);
-	result = JSON.parse(resultText.obj);
+	result = JSON.parse(data.obj);
 
 	text =
 		'<div class="panel-body">' +
@@ -610,11 +618,10 @@ function onChangeLegalEntity() {
 }
 
 function onSuccessInfUserSoapRequest(data, status, req) {
-	var resultText, result, debt_timeout_text, legal_entities, outlets, temp, select;
+	var result, debt_timeout_text, legal_entities, outlets, temp, select;
 
 	//resultText = $(req.responseText).find("m\\:return").html();
-	resultText = JSON.parse(data).obj;
-	result = JSON.parse(resultText);
+	result = JSON.parse(data.obj);
 
 	// Заполнить список городов текущего пользователя.
 	current_user.cities = [];
@@ -735,12 +742,10 @@ function onErrorLoginSoapRequest(data, status, req) {
 }
 
 function onSuccessPictures(data, status, req) {
-	var resultText, result, temp, isActive, index;
+	var result, temp, isActive, index;
 
-	resultText = $(req.responseText).find("m\\:return").html();
-	result = JSON.parse(resultText);
-
-	console.log(resultText);
+	// resultText = $(req.responseText).find("m\\:return").html();
+	result = JSON.parse(data.obj);
 
 	if (result.length > 0) {
 		temp = '	<div class="carousel-inner">';
@@ -925,6 +930,7 @@ $(document).ready(function () {
 		exitButton.style.display = "none";
 
 		$("#login-text").html('');
+		// ToDo Очистить корзину
 		$("#basket").html('<span class="glyphicon glyphicon-shopping-cart"></span>');
 		updateVisiblity('');
 		updateEnabledDisabled(false);

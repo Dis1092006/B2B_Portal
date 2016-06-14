@@ -28,7 +28,7 @@ router.post('/login', function (req, res, next) {
 			console.log('resultText = ' + resultText);
 			var token = jwt.sign({user: userLogin}, 'b2b_user_key', {expiresIn: 7200});
 			return res.status(200).json({
-				message: 'Успех',
+				message: 'Success',
 				token: token,
 				userId: resultText
 			});
@@ -225,7 +225,7 @@ function executeInfUserTextSoapRequest(idUser, processError, processSuccess) {
 };
 
 function executeInfContactsSoapRequest(idUser, processError, processSuccess) {
-	var wsUrl, wsUser, wsPassword, soapRequest, request;
+	var wsUrl, wsUser, wsPassword, soapRequest, xhr;
 
 	//wsUrl = 'https://' + window.location.host + '/B2B/ws/Authorization';
 	wsUrl = 'https://torg-b2b.ru/B2B_TEST/ws/Authorization';
