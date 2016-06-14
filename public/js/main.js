@@ -379,11 +379,11 @@ function updateOrders() {
 }
 
 function onSuccessStatusOrderSoapRequest(data, status, req) {
-	var resultText, result;
+	var result;
 
-	resultText = $(req.responseText).find("m\\:return").html();
+	//resultText = $(req.responseText).find("m\\:return").html();
 
-	result = JSON.parse(resultText);
+	result = JSON.parse(data.obj);
 
 	// Загрузить данные заказов текущему пользователю.
 	current_user.setOrders(result);
@@ -692,19 +692,19 @@ function onSuccessLoginSoapRequest(data, status, req) {
 
 	console.log("onSuccessLoginSoapRequest, data = " + data);
 
-	loginResult = JSON.parse(data);
+	//loginResult = JSON.parse(data);
 
-	localStorage.setItem('token', loginResult.token);
-	localStorage.setItem('userId', loginResult.userId);
+	localStorage.setItem('token', data.token);
+	localStorage.setItem('userId', data.userId);
 
 	//resultText = $(req.responseText).find("m\\:return").html();
-	console.log("onSuccessLoginSoapRequest, loginResult.userId = " + loginResult.userId);
+	console.log("onSuccessLoginSoapRequest, loginResult.userId = " + data.userId);
 
 	// В случае успешного входа отобразить логин пользователя.
-	onSuccessfullLogin(current_login, loginResult.userId);
+	onSuccessfullLogin(current_login, data.userId);
 
 	// Пишем в куку
-	$.cookie('userID', loginResult.userId, {
+	$.cookie('userID', data.userId, {
 		expires: 1,
 		path: '/'
 	});
@@ -722,7 +722,7 @@ function onSuccessLoginSoapRequest(data, status, req) {
 	// Запросить информацию о пользователе.
 	WS = require('./ws');
 	ws = new WS();
-	ws.executeInfUserSoapRequest(loginResult.userId, onErrorSoapRequest, onSuccessInfUserSoapRequest);
+	ws.executeInfUserSoapRequest(data.userId, onErrorSoapRequest, onSuccessInfUserSoapRequest);
 }
 
 function onErrorLoginSoapRequest(data, status, req) {
@@ -856,8 +856,9 @@ function updateBasket() {
 function onSuccessMakeOrder(data, status, req) {
 	var result, Order;
 
-	result = $(req.responseText).find("m\\:return").html();
-	console.log('success ' + data.status + " " + data.statusText + " " + result);
+	console.log('onSuccessMakeOrder, data = ' + JSON.stringify(data));
+	//result = $(req.responseText).find("m\\:return").html();
+	result = data.obj;
 
 	if (result > 0) {
 		Order = require('./order');
@@ -875,7 +876,10 @@ function onSuccessMakeOrder(data, status, req) {
 function onSuccessModifyOrder(data, status, req) {
 	var result, WS, ws;
 
-	result = $(req.responseText).find("m\\:return").html();
+	console.log('onSuccessModifyOrder, data = ' + JSON.stringify(data));
+
+	//result = $(req.responseText).find("m\\:return").html();
+	result = data.obj;
 
 	if (result === 0) {
 		alert("Ошибка при изменении заказа!");
