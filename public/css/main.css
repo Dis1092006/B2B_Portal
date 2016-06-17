@@ -41,6 +41,18 @@ body.loading .waiting-modal {
 	font: normal normal 14px Verdana, Geneva, Arial, Helvetica, sans-serif;
 }
 
+/* Уменьшение размеров элементов фильтра */
+.btn.dropdown-toggle, .input-group-addon, .dropdown-menu.inner, #filter-price-from, #filter-price-to  {
+	font: normal normal 11px Verdana, Geneva, Arial, Helvetica, sans-serif;
+	height: 28px;
+}
+.bootstrap-select.btn-group {
+	width: 150px!important;
+}
+.input-group {
+	width: 160px;
+}
+
 .b2b_btn_enter,
 .b2b_btn_exit {
 	margin-right: 1px;

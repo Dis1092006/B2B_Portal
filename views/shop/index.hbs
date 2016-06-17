@@ -152,79 +152,81 @@
 				<div class="panel-heading">Фильтр</div>
 				<div class="panel-body">
 					<div class="row">
-						<div class="col-md-2">
+						<div class="col-sm-3 col-md-3">
 							<div class="filter-city">
 								Город:
-								<select class="selectpicker span4" id="select-city" onchange="onChangeCity()">
+								<select class="selectpicker" id="select-city" onchange="onChangeCity()">
 								</select>
 							</div>
 						</div>
-						<div class="col-md-3">
+						<div class="col-sm-3 col-md-3">
 							<div class="filter-group1">
 								Группа 1:
-								<select class="selectpicker span4" id="select-group1" onchange="onChangeFilter()">
+								<select class="selectpicker" id="select-group1" onchange="onChangeFilter()">
 									<option value="0">Все</option>
 								</select>
 							</div>
 						</div>
-						<div class="col-md-3">
+						<div class="col-sm-3 col-md-3">
 							<div class="filter-group3">
 								Группа 3:
-								<select class="selectpicker span4" id="select-group3" onchange="onChangeFilter()">
+								<select class="selectpicker" id="select-group3" onchange="onChangeFilter()">
 									<option value="0">Все</option>
 								</select>
 							</div>
 						</div>
-						<div class="col-md-2">
-							<div class="filter-brand">
-								Бренд:
-								<select class="selectpicker span4" id="select-brand" onchange="onChangeFilter()">
-									<option value="0">Все</option>
-								</select>
-							</div>
-						</div>
-						<div class="col-md-2">
+						<div class="col-sm-3 col-md-3">
 							<div class="input-group">
 								<span class="input-group-addon">Цена от:</span>
-								<input type="text" class="form-control input-sm" id="filter-price-from" value="0">
+								<input type="text" class="form-control" id="filter-price-from" value="0">
 							</div>
 						</div>
 					</div>
 					<div class="row">
-						<div class="col-md-2">
+						<div class="col-sm-3 col-md-3">
+							<div class="filter-brand">
+								Бренд:
+								<select class="selectpicker" id="select-brand" onchange="onChangeFilter()">
+									<option value="0">Все</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-sm-3 col-md-3">
+							<div class="filter-group2">
+								Группа 2:
+								<select class="selectpicker" id="select-group2" onchange="onChangeFilter()">
+									<option value="0">Все</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-sm-3 col-md-3">
+							<div class="filter-group4">
+								Группа 4:
+								<select class="selectpicker" id="select-group4" onchange="onChangeFilter()">
+									<option value="0">Все</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-sm-3 col-md-3">
+							<div class="input-group">
+								<span class="input-group-addon">Цена до:</span>
+								<input type="text" class="form-control" id="filter-price-to" value="10000000">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-6 col-md-6">
 							<div class="checkbox">
 								<label>
 									<input type="checkbox" id="show-position-code" value="true">Показать код позиции
 								</label>
 							</div>
 						</div>
-						<div class="col-md-3">
-							<div class="filter-group2">
-								Группа 2:
-								<select class="selectpicker span4" id="select-group2" onchange="onChangeFilter()">
-									<option value="0">Все</option>
-								</select>
-							</div>
-						</div>
-						<div class="col-md-3">
-							<div class="filter-group4">
-								Группа 4:
-								<select class="selectpicker span4" id="select-group4" onchange="onChangeFilter()">
-									<option value="0">Все</option>
-								</select>
-							</div>
-						</div>
-						<div class="col-md-2">
+						<div class="col-sm-6 col-md-6">
 							<div class="checkbox">
 								<label>
 									<input type="checkbox" id="in-stock" value="true">Только в наличии сейчас
 								</label>
-							</div>
-						</div>
-						<div class="col-md-2">
-							<div class="input-group">
-								<span class="input-group-addon">Цена до:</span>
-								<input type="text" class="form-control input-sm" id="filter-price-to" value="10000000">
 							</div>
 						</div>
 					</div>
