@@ -25,41 +25,41 @@ function onErrorSoapRequest(data, status, req) {
 	}
 }
 
-function updateVisiblity(containerName) {
-	var goodsContainer, basketContainer, ordersContainer, userInfoContainer, contactsContainer;
-
-	goodsContainer = document.getElementById('goods-container');
-	basketContainer = document.getElementById('basket-container');
-	ordersContainer = document.getElementById('orders-container');
-	userInfoContainer = document.getElementById('user-info-container');
-	contactsContainer = document.getElementById('contacts-container');
-
-	goodsContainer.style.display = 'none';
-	basketContainer.style.display = 'none';
-	ordersContainer.style.display = 'none';
-	userInfoContainer.style.display = 'none';
-	contactsContainer.style.display = 'none';
-
-	if (containerName === 'goods-container') {
-		goodsContainer.style.display = 'block';
-	}
-
-	if (containerName === 'basket-container') {
-		basketContainer.style.display = 'block';
-	}
-
-	if (containerName === 'orders-container') {
-		ordersContainer.style.display = 'block';
-	}
-
-	if (containerName === 'user-info-container') {
-		userInfoContainer.style.display = 'block';
-	}
-
-	if (containerName === 'contacts-container') {
-		contactsContainer.style.display = 'block';
-	}
-}
+// function updateVisiblity(containerName) {
+// 	var goodsContainer, basketContainer, ordersContainer, userInfoContainer, contactsContainer;
+//
+// 	goodsContainer = document.getElementById('goods-container');
+// 	basketContainer = document.getElementById('basket-container');
+// 	ordersContainer = document.getElementById('orders-container');
+// 	userInfoContainer = document.getElementById('user-info-container');
+// 	contactsContainer = document.getElementById('contacts-container');
+//
+// 	goodsContainer.style.display = 'none';
+// 	basketContainer.style.display = 'none';
+// 	ordersContainer.style.display = 'none';
+// 	userInfoContainer.style.display = 'none';
+// 	contactsContainer.style.display = 'none';
+//
+// 	if (containerName === 'goods-container') {
+// 		goodsContainer.style.display = 'block';
+// 	}
+//
+// 	if (containerName === 'basket-container') {
+// 		basketContainer.style.display = 'block';
+// 	}
+//
+// 	if (containerName === 'orders-container') {
+// 		ordersContainer.style.display = 'block';
+// 	}
+//
+// 	if (containerName === 'user-info-container') {
+// 		userInfoContainer.style.display = 'block';
+// 	}
+//
+// 	if (containerName === 'contacts-container') {
+// 		contactsContainer.style.display = 'block';
+// 	}
+// }
 
 function updateGoodsTable() {
 	var tree, showPositionCode;
@@ -169,7 +169,7 @@ function fill_cities(cities_array) {
 		temp += '<option value="' + city['ПодразделениеКод'] + '">' + city['ПодразделениеНаименование'] + '</option>';
 	}
 
-	return '<select class="selectpicker span4" id="select-city">' +
+	return '<select class="selectpicker" id="select-city">' +
 		temp +
 		'</select>';
 }
@@ -183,7 +183,7 @@ function fill_filter(filter_array, filter_name) {
 		temp += '<option value="' + index + '">' + item + '</option>';
 	}
 
-	return '<select class="selectpicker span4" id="' + filter_name + '">' +
+	return '<select class="selectpicker" id="' + filter_name + '">' +
 		temp +
 		'</select>';
 }
@@ -470,8 +470,9 @@ function onSuccessInfContactsSoapRequest(data, status, req) {
 
 function goodsClick() {
 	var filter, WS, ws;
-
-	updateVisiblity('goods-container');
+	
+	window.location.href = 'http://' + window.location.host + '/Portal_TEST/goods?token=' + localStorage.getItem('token');
+	// updateVisiblity('goods-container');
 
 	filter = {};
 
@@ -505,13 +506,13 @@ function goodsClick() {
 function basketClick() {
 	//var filter, WS, ws;
 
-	updateVisiblity('basket-container');
+	// updateVisiblity('basket-container');
 }
 
 function ordersClick() {
 	var WS, ws;
 
-	updateVisiblity('orders-container');
+	// updateVisiblity('orders-container');
 
 	WS = require('./ws');
 	ws = new WS();
@@ -521,7 +522,7 @@ function ordersClick() {
 function usersInfoClick() {
 	var WS, ws;
 
-	updateVisiblity('user-info-container');
+	// updateVisiblity('user-info-container');
 
 	WS = require('./ws');
 	ws = new WS();
@@ -529,13 +530,30 @@ function usersInfoClick() {
 }
 
 function contactsClick() {
-	var WS, ws;
-
-	updateVisiblity('contacts-container');
-
-	WS = require('./ws');
-	ws = new WS();
-	ws.executeInfContactsSoapRequest(current_user.getUserID(), onErrorSoapRequest, onSuccessInfContactsSoapRequest);
+	// var WS, ws;
+	//
+	// updateVisiblity('contacts-container');
+	//
+	// WS = require('./ws');
+	// ws = new WS();
+	// ws.executeInfContactsSoapRequest(current_user.getUserID(), onErrorSoapRequest, onSuccessInfContactsSoapRequest);
+	
+	$.ajax({
+		type: 'GET',
+		//url: 'https://torg-b2b.ru/Portal_TEST/user/contacts',
+		url: 'http://localhost:8000/Portal_TEST/user/contacts',
+		data: {
+			token: localStorage.getItem('token'),
+			userId: localStorage.getItem('userId')
+		},
+		async: true,
+		success: function(data){
+			//console.log('data = ' + JSON.stringify(data));
+			if (data){
+				$("#content").html(data);
+			}
+		}
+	});
 }
 
 function updateEnabledDisabled(flag) {
@@ -574,7 +592,7 @@ function onSuccessfullLogin(userLogin, userID) {
 	current_user = new User(userLogin, userID);
 	$.current_user = current_user;
 
-	updateVisiblity('');
+	// updateVisiblity('');
 	updateEnabledDisabled(true);
 
 	enterButton = document.getElementById("enter");
@@ -684,7 +702,7 @@ function onSuccessInfUserSoapRequest(data, status, req) {
 	current_user.setCurrentOutlet($(".outlet").find("option:selected").text());
 
 	// Вывести список товаров.
-	goodsClick();
+	// goodsClick();
 }
 
 function onSuccessLoginSoapRequest(data, status, req) {
@@ -730,7 +748,7 @@ function onErrorLoginSoapRequest(data, status, req) {
 
 	$("#login-text").html('');
 	$("#basket").html('<span class="glyphicon glyphicon-shopping-cart"></span>');
-	updateVisiblity('');
+	// updateVisiblity('');
 	updateEnabledDisabled(false);
 
 	//resultText = $(data.responseText).find("faultstring").html();
@@ -936,7 +954,7 @@ $(document).ready(function () {
 		$("#login-text").html('');
 		// ToDo Очистить корзину
 		$("#basket").html('<span class="glyphicon glyphicon-shopping-cart"></span>');
-		updateVisiblity('');
+		// updateVisiblity('');
 		updateEnabledDisabled(false);
 
 		$.cookie('userID', null, {
@@ -951,22 +969,23 @@ $(document).ready(function () {
 		$('#sign-in-modal').modal();
 	});
 
-	$("#refresh-goods-button").click(function () {
-		var filter;
-
-		filter = {};
-		filter["Подразделение"] = current_order.getCurrentCity();
-		filter["Группа1"] = $("#select-group1").find("option:selected").text();
-		filter["Группа2"] = $("#select-group2").find("option:selected").text();
-		filter["Группа3"] = $("#select-group3").find("option:selected").text();
-		filter["Группа4"] = $("#select-group4").find("option:selected").text();
-		filter["Бренд"] = $("#select-brand").find("option:selected").text();
-		filter["ЦенаОт"] = $('#filter-price-from').val();
-		filter["ЦенаДо"] = $('#filter-price-to').val();
-		filter["ТолькоВНаличии"] = $("#in-stock").prop("checked");
-
-		ws.executeTreeBalanceSoapRequest(current_user.getCurrentLegalEntity(), JSON.stringify(filter), onErrorSoapRequest, onSuccessTreeBalanceSoapRequest);
-	});
+	// $("#refresh-goods-button").click(function () {
+	// 	window.location.href = 'http://' + window.location.host + '/Portal_TEST/goods?token=' + localStorage.getItem('token');
+	// 	// var filter;
+	// 	//
+	// 	// filter = {};
+	// 	// filter["Подразделение"] = current_order.getCurrentCity();
+	// 	// filter["Группа1"] = $("#select-group1").find("option:selected").text();
+	// 	// filter["Группа2"] = $("#select-group2").find("option:selected").text();
+	// 	// filter["Группа3"] = $("#select-group3").find("option:selected").text();
+	// 	// filter["Группа4"] = $("#select-group4").find("option:selected").text();
+	// 	// filter["Бренд"] = $("#select-brand").find("option:selected").text();
+	// 	// filter["ЦенаОт"] = $('#filter-price-from').val();
+	// 	// filter["ЦенаДо"] = $('#filter-price-to').val();
+	// 	// filter["ТолькоВНаличии"] = $("#in-stock").prop("checked");
+	// 	//
+	// 	// ws.executeTreeBalanceSoapRequest(current_user.getCurrentLegalEntity(), JSON.stringify(filter), onErrorSoapRequest, onSuccessTreeBalanceSoapRequest);
+	// });
 
 	$("#change-city-button-ok").click(function () {
 		var Order;

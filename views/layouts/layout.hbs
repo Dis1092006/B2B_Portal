@@ -35,9 +35,139 @@
 </head>
 <body>
 {{> header }}
-<div class="container-fluid">
+
+<div class="modal fade" id="error-login-modal">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<p>Ошибка входа</p>
+			</div>
+			<div class="modal-body">
+				<p id="error-login-text"></p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default btn-warning" data-dismiss="modal">ОК</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="debt-timeout-modal">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<div class="alert alert-danger" role="alert">
+					<h4 class="modal-title">Внимание!</h4>
+				</div>
+			</div>
+			<div class="modal-body">
+				<p id="debt-timeout-text">Обнаружена просроченная задолженность!</p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-warning" data-dismiss="modal">Ок</button>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+<div class="modal fade" id="change-city-modal">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-body">
+				<p id="change-city-modal-approve">При смене города текущий заказ будет очищен!</p>
+			</div>
+			<div class="modal-footer">
+				<button id="change-city-button-ok" type="button" class="btn btn-warning" data-dismiss="modal">Да, поменять город и очистить заказ</button>
+				<button id="change-city-button-cancel" type="button" class="btn btn-default" data-dismiss="modal">Не менять город</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="product-description-modal">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<p>Описание номенклатуры</p>
+			</div>
+			<div class="modal-body">
+				<p id="product-description-text"></p>
+
+				<div id="product-description-pictures" class="carousel slide">
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">ОК</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="make-order-modal">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-body">
+				<p id="make-order-modal-amount">Вы уверены, что готовы отправить заказ на сумму </p>
+				<p id="make-order-modal-client">Клиент: </p>
+				<p id="make-order-modal-outlet">Магазин: </p>
+			</div>
+			<div class="modal-footer">
+				<button id="make-order-button-ok" type="button" class="btn btn-success" data-dismiss="modal">ОК</button>
+				<button type="button" class="btn btn-danger" data-dismiss="modal">Ой, ошибся</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="make-order-success-modal">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-body">
+				<p id="make-order-success-number">Заказ успешно зарегистрирован под номером </p>
+			</div>
+			<div class="modal-footer">
+				<button id="make-order-success-button-ok" type="button" class="btn btn-default btn-success"
+				        data-dismiss="modal">ОК
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="delete-order-row-modal">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-body">
+				<p id="delete-order-row-approve">Удалить строку из заказа?</p>
+			</div>
+			<div class="modal-footer">
+				<button id="delete-order-row-button-ok" type="button" class="btn btn-warning" data-dismiss="modal">ОК</button>
+				<button id="delete-order-row-button-cancel" type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="content" class="container-fluid">
 	{{{body}}}
 </div>
+
+<div class="container">
+	<div class="modal" id="sign-in-modal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+		<form class="form-signin">
+			<h2 class="form-signin-heading">Вход</h2>
+			<input id="sign_in_login" type="text" class="input-block-level" placeholder="Логин">
+			<input id="sign_in_password" type="password" class="input-block-level" placeholder="Пароль">
+			<button id="sign-in-button" class="btn btn-large btn-primary" type="submit" data-dismiss="modal">Войти</button>
+		</form>
+	</div>
+</div>
+
+<div class="waiting-modal"></div>
+
 <!--script src="https://code.jquery.com/jquery-1.12.3.min.js"   integrity="sha256-aaODHAgvwQW1bFOGXMeX+pC4PZIPsvn2h1sArYOhgXQ="   crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script-->
 <script src="js/jquery-ui.min.js"></script>
