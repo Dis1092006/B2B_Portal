@@ -27,7 +27,7 @@ router.get('/', function(req, res, next) {
 		function (data, status, req) {
 			var xmlData = new XmlDocument(data);
 			var resultText = xmlData.valueWithPath('soap:Body.soap:Reason.soap:Text');
-			return res.status(status).json({
+			res.render('error', {
 				message: 'Ошибка!',
 				error: resultText
 			});
@@ -35,10 +35,21 @@ router.get('/', function(req, res, next) {
 		function (data, status, req) {
 			var xmlData = new XmlDocument(data);
 			var resultText = xmlData.valueWithPath('soap:Body.m:StatusOrderResponse.m:return');
-			return res.status(200).json({
-				message: 'Success',
-				obj: resultText
-			});
+			var result = JSON.parse(resultText);
+
+			// Промежуточная обработка списка заказов.
+			var orders = [];
+			for (var index1 = 0; index1 < result.length; index1 = index1 + 1) {
+				var order = result[index1];
+				//order["ПризнакИзменения"] = false;
+				for (var index2 = 0; index2 < order["МассивСтрокЗаказа"].length; index2 = index2 + 1) {
+					var row = order["МассивСтрокЗаказа"][index2];
+					row['Идентификатор'] = '' + index1 + '.' + index2; // Задать строке заказа уникальный идентификатор.
+				}
+				orders.push(order);
+			}
+
+			res.render('shop/orders', {layout: false, data: orders});
 		}
 	);
 });

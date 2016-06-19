@@ -512,13 +512,29 @@ function basketClick() {
 }
 
 function ordersClick() {
-	var WS, ws;
-
-	// updateVisiblity('orders-container');
-
-	WS = require('./ws');
-	ws = new WS();
-	ws.executeStatusOrderSoapRequest(current_user.getUserID(), onErrorSoapRequest, onSuccessStatusOrderSoapRequest);
+	// var WS, ws;
+	//
+	// // updateVisiblity('orders-container');
+	//
+	// WS = require('./ws');
+	// ws = new WS();
+	// ws.executeStatusOrderSoapRequest(current_user.getUserID(), onErrorSoapRequest, onSuccessStatusOrderSoapRequest);
+	$.ajax({
+		type: 'GET',
+		// url: 'https://torg-b2b.ru/Portal_TEST/orders',
+		url: 'http://localhost:8000/Portal_TEST/orders',
+		data: {
+			token: localStorage.getItem('token'),
+			userId: localStorage.getItem('userId')
+		},
+		async: true,
+		success: function(data){
+			//console.log('data = ' + JSON.stringify(data));
+			if (data){
+				$("#content").html(data);
+			}
+		}
+	});
 }
 
 function usersInfoClick() {
@@ -539,7 +555,6 @@ function usersInfoClick() {
 		},
 		async: true,
 		success: function(data){
-			//console.log('data = ' + JSON.stringify(data));
 			if (data){
 				$("#content").html(data);
 			}
@@ -919,11 +934,12 @@ function onSuccessModifyOrder(data, status, req) {
 	if (result === 0) {
 		alert("Ошибка при изменении заказа!");
 	} else {
-		WS = require('./ws');
-		ws = new WS();
-		ws.executeStatusOrderSoapRequest(current_user.getUserID(), onErrorSoapRequest, onSuccessStatusOrderSoapRequest);
-		alert("Измененный заказ отправлен на авторизацию менеджеру");
-		//modified_order.number = result;
+		ordersClick();
+		// WS = require('./ws');
+		// ws = new WS();
+		// ws.executeStatusOrderSoapRequest(current_user.getUserID(), onErrorSoapRequest, onSuccessStatusOrderSoapRequest);
+		// alert("Измененный заказ отправлен на авторизацию менеджеру");
+		// //modified_order.number = result;
 	}
 
 	console.log(result);

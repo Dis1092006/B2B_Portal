@@ -140,6 +140,7 @@ WS.prototype.executeMainOrder = function (order, processError, processSuccess) {
 	});
 };
 
+/*
 WS.prototype.executeStatusOrderSoapRequest = function (idSession, processError, processSuccess) {
 	$.ajax({
 		type: 'GET',
@@ -155,6 +156,7 @@ WS.prototype.executeStatusOrderSoapRequest = function (idSession, processError, 
 		success: processSuccess
 	});
 };
+*/
 
 WS.prototype.executeModifiedOrder = function (order, processError, processSuccess) {
 	$.ajax({

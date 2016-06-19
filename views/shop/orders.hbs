@@ -1,0 +1,74 @@
+<div id="orders-container">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="panel-group" id="panel-group-orders">
+				{{#each data}}
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h4 class="panel-title">
+								<a data-toggle="collapse" data-parent="#tree-orders" href="#collapse{{@index}}">
+									{{this.ОписаниеЗаказа}}
+								</a>
+								<a class="pull-right" data-toggle="collapse" data-parent="#tree-orders" href="#collapse{{@index}}">
+									{{this.СтрокаСтатусов}}
+								</a>
+							</h4>
+						</div>
+						<div id="collapse{{@index}}" class="panel-collapse collapse">
+							<div class="panel-body">
+								<table class="table panel-group-orders-table" id="panel-group-orders-table">
+									<thead>
+										<tr>
+											<th class="col-status">Статус</th>
+											<th class="col-order-number">№ заказа</th>
+											<th class="col-stock">Размещение</th>
+											<th class="col-status">Номенклатура</th>
+											<th class="col-count">Количество</th>
+											<th class="col-amount">Цена</th>
+											<th class="col-amount">Сумма</th>
+											<th class="col-amount">Объем</th>
+											<th class="col-edit">Удалить</th>
+										</tr>
+									</thead>
+									<tbody>
+										{{#each this.МассивСтрокЗаказа}}
+											{{#if this.ЗапретРедактированияСтроки}}
+												<tr class="old" id="{{this.Идентификатор}}" code="{{this.КодЗаказа}}">
+											{{else}}
+												<tr id="{{this.Идентификатор}}" code="{{this.КодЗаказа}}">
+											{{/if}}
+												<td>{{this.Статус}}</td>
+												<td>{{this.НомерЗаказа}}</td>
+												<td>{{this.Размещение}}</td>
+												<td>{{this.НоменклатураНаименование}}</td>
+												{{#if this.ЗапретРедактированияСтроки}}
+													<td>{{this.Количество}}</td>
+												{{else}}
+													<td>
+														<a class="order-row-count" href="#" data-pk="{{@index}}">{{this.Количество}}</a>
+													</td>
+												{{/if}}
+												<td>{{this.Цена}}</td>
+												<td>{{this.Сумма}}</td>
+												<td>{{this.Объем}}</td>
+												{{#if this.ЗапретРедактированияСтроки}}
+													<td></td>
+												{{else}}
+													<td>
+														<a class="remove-picture"><span class="glyphicon glyphicon-remove"></span></a>
+													</td>
+												{{/if}}
+											</tr>
+										{{/each}}
+									</tbody>
+								</table>
+								<button type="button" class="btn btn-large modify-order-button" disabled="disabled">Изменить заказ<span class="glyphicon glyphicon-usd"></span>
+								</button>
+							</div>
+						</div>
+					</div>
+				{{/each}}
+			</div>
+		</div>
+	</div>
+</div>
