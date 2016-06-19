@@ -39,6 +39,7 @@ WS.prototype.executeInfUserSoapRequest = function (idUser, processError, process
 	});
 };
 
+/*
 WS.prototype.executeInfUserTextSoapRequest = function (idUser, processError, processSuccess) {
 	$.ajax({
 		type: 'GET',
@@ -70,6 +71,7 @@ WS.prototype.executeInfContactsSoapRequest = function (idUser, processError, pro
 		success: processSuccess
 	});
 };
+*/
 
 WS.prototype.executeAvailableFiltersSoapRequest = function (legalEntity, filter, processError, processSuccess) {
 	$.ajax({

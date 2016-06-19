@@ -392,6 +392,7 @@ function onSuccessStatusOrderSoapRequest(data, status, req) {
 	updateOrders();
 }
 
+/*
 function onSuccessInfUserTextSoapRequest(data, status, req) {
 	var result, text, legal_entity_description, debt_information, panel;
 
@@ -467,6 +468,7 @@ function onSuccessInfContactsSoapRequest(data, status, req) {
 	panel.empty();
 	panel.append(text);
 }
+*/
 
 function goodsClick() {
 	var filter, WS, ws;
@@ -520,13 +522,29 @@ function ordersClick() {
 }
 
 function usersInfoClick() {
-	var WS, ws;
-
+	// var WS, ws;
+	//
 	// updateVisiblity('user-info-container');
-
-	WS = require('./ws');
-	ws = new WS();
-	ws.executeInfUserTextSoapRequest(current_user.getUserID(), onErrorSoapRequest, onSuccessInfUserTextSoapRequest);
+	//
+	// WS = require('./ws');
+	// ws = new WS();
+	// ws.executeInfUserTextSoapRequest(current_user.getUserID(), onErrorSoapRequest, onSuccessInfUserTextSoapRequest);
+	$.ajax({
+		type: 'GET',
+		//url: 'https://torg-b2b.ru/Portal_TEST/user/profile/short',
+		url: 'http://localhost:8000/Portal_TEST/user/profile/short',
+		data: {
+			token: localStorage.getItem('token'),
+			userId: localStorage.getItem('userId')
+		},
+		async: true,
+		success: function(data){
+			//console.log('data = ' + JSON.stringify(data));
+			if (data){
+				$("#content").html(data);
+			}
+		}
+	});
 }
 
 function contactsClick() {
@@ -548,7 +566,6 @@ function contactsClick() {
 		},
 		async: true,
 		success: function(data){
-			//console.log('data = ' + JSON.stringify(data));
 			if (data){
 				$("#content").html(data);
 			}

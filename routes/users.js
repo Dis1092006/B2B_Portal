@@ -81,7 +81,7 @@ router.get('/profile/short', function(req, res, next) {
 		function (data, status, req) {
 			var xmlData = new XmlDocument(data);
 			var resultText = xmlData.valueWithPath('soap:Body.soap:Reason.soap:Text');
-			return res.status(status).json({
+			res.render('error', {
 				message: 'Ошибка!',
 				error: resultText
 			});
@@ -89,10 +89,8 @@ router.get('/profile/short', function(req, res, next) {
 		function (data, status, req) {
 			var xmlData = new XmlDocument(data);
 			var resultText = xmlData.valueWithPath('soap:Body.m:InfUserTextResponse.m:return');
-			return res.status(200).json({
-				message: 'Success',
-				obj: resultText
-			});
+			var result = JSON.parse(resultText);
+			res.render('user/profile', {layout: false, data: result});
 		}
 	);
 });

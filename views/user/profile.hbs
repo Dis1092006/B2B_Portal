@@ -1,0 +1,28 @@
+<div id="profile-container">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="panel-group" id="panel-user-info">
+				{{#each data }}
+					<div class="panel panel-default">
+						<div class="panel-body">
+							<div class="alert alert-info">
+								{{#each this.СтрокаОписания }}
+									<p>{{this}}</p>
+								{{/each}}
+							</div>
+							{{#if this.ИнформацияОДолге.ВыводитьДолгКрасным}}
+								<div class="alert alert-danger">
+							{{else}}
+								<div class="alert alert-info">
+							{{/if}}
+							{{#each this.ИнформацияОДолге.СтрокаОписания }}
+								<p>{{this}}</p>
+							{{/each}}
+							</div>
+						</div>
+					</div>
+				{{/each}}
+			</div>
+		</div>
+	</div>
+</div>
