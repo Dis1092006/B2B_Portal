@@ -16,7 +16,89 @@ router.use('/', function(req, res, next) {
 	});
 });
 
-router.get('/', function(req, res, next) {
+router.get('/', function (req, res, next) {
+	var totalProcessed = 0;
+	var totalError = '';
+	var Goods = require('../models/goods');
+	var current_goods = new Goods();
+	var filter = {};
+
+	executeAvailableFiltersSoapRequest(
+		'7da17152-368a-11df-bb1d-001e4f153b06',
+		'',
+		function (data, status, req) {
+			totalProcessed++;
+			var xmlData = new XmlDocument(data);
+			var resultText = xmlData.valueWithPath('soap:Body.soap:Reason.soap:Text');
+			totalError += resultText + '\n';
+			if (totalProcessed == 2) {
+				res.render('error', {
+					message: 'Ошибка!',
+					error: totalError
+				});
+			}
+		},
+		function (data, status, req) {
+			totalProcessed++;
+			var xmlData = new XmlDocument(data);
+			var resultText = xmlData.valueWithPath('soap:Body.m:AvailableFiltersForFiltersResponse.m:return');
+			filter = JSON.parse(resultText);
+			if (totalProcessed == 2) {
+				var table = current_goods.getGoodsTableView(undefined, true, 1000);
+				res.render(
+					'shop/goods',
+					{
+						layout: false,
+						data: table,
+						group1List: filter["Группа1"],
+						group2List: filter["Группа2"],
+						group3List: filter["Группа3"],
+						group4List: filter["Группа4"],
+						brendList: filter["Бренд"]
+					});
+			}
+		}
+	);
+	executeTreeBalanceSoapRequest(
+		'7da17152-368a-11df-bb1d-001e4f153b06',
+		'',
+		function (data, status, req) {
+			totalProcessed++;
+			var xmlData = new XmlDocument(data);
+			var resultText = xmlData.valueWithPath('soap:Body.soap:Reason.soap:Text');
+			totalError += resultText + '\n';
+			if (totalProcessed == 2) {
+				res.render('error', {
+					message: 'Ошибка!',
+					error: totalError
+				});
+			}
+		},
+		function (data, status, req) {
+			totalProcessed++;
+			var xmlData = new XmlDocument(data);
+			var resultText = xmlData.valueWithPath('soap:Body.m:TreeBalanceResponse.m:return');
+			var result = JSON.parse(resultText);
+			current_goods.setGoods(result);
+			if (totalProcessed == 2) {
+				var table = current_goods.getGoodsTableView(undefined, true, 1000);
+				res.render(
+					'shop/goods',
+					{
+						layout: false,
+						data: table,
+						group1List: filter["Группа1"],
+						group2List: filter["Группа2"],
+						group3List: filter["Группа3"],
+						group4List: filter["Группа4"],
+						brendList: filter["Бренд"]
+					});
+			}
+		}
+	);
+});
+
+router.get('/data', function(req, res, next) {
 
 	executeTreeBalanceSoapRequest(
 		req.query.legalEntity,

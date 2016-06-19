@@ -61,14 +61,25 @@ function onErrorSoapRequest(data, status, req) {
 // 	}
 // }
 
-function updateGoodsTable() {
+function updateGoodsTable(data) {
 	var tree, showPositionCode;
 
-	showPositionCode = $("#show-position-code").prop("checked");
+	//showPositionCode = $("#show-position-code").prop("checked");
 
-	tree = $("#tree-goods");
-	tree.empty();
-	tree.append(current_goods.getGoodsTableView(current_order.getItems(), showPositionCode, document.body.clientWidth - 62));
+	// tree = $("#tree-goods");
+	// tree.empty();
+	// tree.append(current_goods.getGoodsTableView(current_order.getItems(), showPositionCode, document.body.clientWidth - 62));
+	$("#content").html(data);
+
+	$('.selectpicker').selectpicker();
+
+	// Включить обработчик событий изменения флага отображения кода позиции.
+	$('#show-position-code').on("change", onChangeShowPositionCode);
+
+	// Включить обработчики событий фильтров цены и признака наличия на складе.
+	$('#filter-price-from').on("change", onChangeFilter2);
+	$('#filter-price-to').on("change", onChangeFilter2);
+	$('#in-stock').on("change", onChangeFilter2);
 
 	// Включить быстрый поиск по таблице.
 	$('input#search-text').quicksearch('table#tree-table-goods tbody tr');
@@ -266,14 +277,14 @@ function onChangeCity() {
 
 // Смена признака отображения кода позиции товара.
 function onChangeShowPositionCode() {
-	// Начало длительного обновления.
-	$("body").addClass("loading");
+	// // Начало длительного обновления.
+	// $("body").addClass("loading");
 
 	// Обновить таблицу товаров.
 	updateGoodsTable();
 
-	// Завершение длительного обновления.
-	$("body").removeClass("loading");
+	// // Завершение длительного обновления.
+	// $("body").removeClass("loading");
 }
 
 function onChangeFilter1() {
@@ -378,6 +389,7 @@ function updateOrders() {
 	});
 }
 
+/*
 function onSuccessStatusOrderSoapRequest(data, status, req) {
 	var result;
 
@@ -392,7 +404,6 @@ function onSuccessStatusOrderSoapRequest(data, status, req) {
 	updateOrders();
 }
 
-/*
 function onSuccessInfUserTextSoapRequest(data, status, req) {
 	var result, text, legal_entity_description, debt_information, panel;
 
@@ -473,7 +484,7 @@ function onSuccessInfContactsSoapRequest(data, status, req) {
 function goodsClick() {
 	var filter, WS, ws;
 	
-	window.location.href = 'http://' + window.location.host + '/Portal_TEST/goods?token=' + localStorage.getItem('token');
+	//window.location.href = 'http://' + window.location.host + '/Portal_TEST/goods?token=' + localStorage.getItem('token');
 	// updateVisiblity('goods-container');
 
 	filter = {};
@@ -491,24 +502,38 @@ function goodsClick() {
 	//console.log(JSON.stringify(current_order.getCurrentCity()));
 	//console.log(JSON.stringify(filter));
 
-	WS = require('./ws');
-	ws = new WS();
-	ws.executeAvailableFiltersSoapRequest(current_user.getCurrentLegalEntity(), JSON.stringify(filter), onErrorSoapRequest, onSuccessAvailableFiltersSoapRequest);
-	ws.executeTreeBalanceSoapRequest(current_user.getCurrentLegalEntity(), JSON.stringify(filter), onErrorSoapRequest, onSuccessTreeBalanceSoapRequest);
+	// WS = require('./ws');
+	// ws = new WS();
+	// ws.executeAvailableFiltersSoapRequest(current_user.getCurrentLegalEntity(), JSON.stringify(filter), onErrorSoapRequest, onSuccessAvailableFiltersSoapRequest);
+	// ws.executeTreeBalanceSoapRequest(current_user.getCurrentLegalEntity(), JSON.stringify(filter), onErrorSoapRequest, onSuccessTreeBalanceSoapRequest);
 
-	// Включить обработчик событий изменения флага отображения кода позиции.
-	$('#show-position-code').on("change", onChangeShowPositionCode);
+	$.ajax({
+		type: 'GET',
+		// url: 'https://torg-b2b.ru/Portal_TEST/goods',
+		url: 'http://localhost:8000/Portal_TEST/goods',
+		data: {
+			token: localStorage.getItem('token'),
+			'legalEntity': current_user.getCurrentLegalEntity(),
+			'filter': filter
+		},
+		async: true,
+		success: function(data){
+			//console.log('data = ' + JSON.stringify(data));
+			if (data){
+				updateGoodsTable(data);
+				//$("#content").html(data);
+			}
+		}
+	});
 
-	// Включить обработчики событий фильтров цены и признака наличия на складе.
-	$('#filter-price-from').on("change", onChangeFilter2);
-	$('#filter-price-to').on("change", onChangeFilter2);
-	$('#in-stock').on("change", onChangeFilter2);
 }
 
 function basketClick() {
 	//var filter, WS, ws;
 
 	// updateVisiblity('basket-container');
+	// Обновить корзину.
+	updateBasket();
 }
 
 function ordersClick() {
@@ -529,7 +554,6 @@ function ordersClick() {
 		},
 		async: true,
 		success: function(data){
-			//console.log('data = ' + JSON.stringify(data));
 			if (data){
 				$("#content").html(data);
 			}
@@ -844,13 +868,14 @@ function get_current_filter_item_index(filter_array, filter_name) {
 }
 
 function updateBasket() {
-	var order;
+	//var order;
 
 	$("#basket").html('<span class="glyphicon glyphicon-shopping-cart"></span> ' + current_order.getBasketShortView());
 
-	order = $("#tree-order");
-	order.empty();
-	order.append(current_order.getTableView());
+	// order = $("#tree-order");
+	// order.empty();
+	// order.append(current_order.getTableView());
+	$("#content").html(current_order.getTableView());
 
 
 	// Выделение текущей строки.

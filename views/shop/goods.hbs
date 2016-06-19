@@ -1,0 +1,173 @@
+<div id="goods-container-test">
+	<div class="row-fluid">
+		<div class="col-md-12">
+			<!--table class="goods-filter-table" width="100%">
+				<tr>
+					<td width="20%">
+						Город: <select class="selectpicker" id="select-city" onchange="onChangeCity()">
+						</select>
+					</td>
+					<td width="20%">
+						Группа 1: <select class="selectpicker" id="select-group1" onchange="onChangeFilter()">
+							<option value="0">Все</option>
+						</select>
+					</td>
+					<td width="20%">
+						Группа 3: <select class="selectpicker" id="select-group3" onchange="onChangeFilter()">
+							<option value="0">Все</option>
+						</select>
+					</td>
+					<td width="20%">
+						Бренд: <select class="selectpicker" id="select-brand" onchange="onChangeFilter()">
+							<option value="0">Все</option>
+						</select>
+					</td>
+					<td width="20%">
+						<div class="input-group">
+							<span class="input-group-addon">Цена от:</span>
+							<input type="text" class="form-control" id="filter-price-from" value="0">
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<div class="checkbox">
+							<label>
+								<input type="checkbox" id="show-position-code" value="true">Показать код позиции
+							</label>
+						</div>
+					</td>
+					<td>
+						Группа 2:
+						<select class="selectpicker" id="select-group2" onchange="onChangeFilter()">
+							<option value="0">Все</option>
+						</select>
+					</td>
+					<td>
+						Группа 4:
+						<select class="selectpicker" id="select-group4" onchange="onChangeFilter()">
+							<option value="0">Все</option>
+						</select>
+					</td>
+					<td>
+						<div class="checkbox">
+							<label>
+								<input type="checkbox" id="in-stock" value="true">Только в наличии сейчас
+							</label>
+						</div>
+					</td>
+					<td>
+						<div class="input-group">
+							<span class="input-group-addon">Цена до:</span>
+							<input type="text" class="form-control" id="filter-price-to" value="10000000">
+						</div>
+					</td>
+				</tr>
+			</table-->
+			<div class="panel panel-default">
+				<div class="panel-heading">Фильтр</div>
+				<div class="panel-body">
+					<div class="row">
+						<div class="col-sm-3 col-md-3">
+							<div class="filter-city">
+								Город:
+								<select class="selectpicker" id="select-city" onchange="onChangeCity()">
+								</select>
+							</div>
+						</div>
+						<div class="col-sm-3 col-md-3">
+							<div class="filter-group1">
+								Группа 1:
+								<select class="selectpicker" id="select-group1" onchange="onChangeFilter()">
+									<option value="*">Все</option>
+									{{# each group1List }}
+										<option value="{{@index}}">{{this}}</option>
+									{{/each}}
+								</select>
+							</div>
+						</div>
+						<div class="col-sm-3 col-md-3">
+							<div class="filter-group3">
+								Группа 3:
+								<select class="selectpicker" id="select-group3" onchange="onChangeFilter()">
+									<option value="*">Все</option>
+									{{# each group3List }}
+										<option value="{{@index}}">{{this}}</option>
+									{{/each}}
+								</select>
+							</div>
+						</div>
+						<div class="col-sm-3 col-md-3">
+							<div class="input-group">
+								<span class="input-group-addon">Цена от:</span>
+								<input type="text" class="form-control" id="filter-price-from" value="0">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-3 col-md-3">
+							<div class="filter-brand">
+								Бренд:
+								<select class="selectpicker" id="select-brand" onchange="onChangeFilter()">
+									<option value="*">Все</option>
+									{{# each brendList }}
+										<option value="{{@index}}">{{this}}</option>
+									{{/each}}
+								</select>
+							</div>
+						</div>
+						<div class="col-sm-3 col-md-3">
+							<div class="filter-group2">
+								Группа 2:
+								<select class="selectpicker" id="select-group2" onchange="onChangeFilter()">
+									<option value="*">Все</option>
+									{{# each group2List }}
+										<option value="{{@index}}">{{this}}</option>
+									{{/each}}
+								</select>
+							</div>
+						</div>
+						<div class="col-sm-3 col-md-3">
+							<div class="filter-group4">
+								Группа 4:
+								<select class="selectpicker" id="select-group4" onchange="onChangeFilter()">
+									<option value="*">Все</option>
+									{{# each group4List }}
+										<option value="{{@index}}">{{this}}</option>
+									{{/each}}
+								</select>
+							</div>
+						</div>
+						<div class="col-sm-3 col-md-3">
+							<div class="input-group">
+								<span class="input-group-addon">Цена до:</span>
+								<input type="text" class="form-control" id="filter-price-to" value="10000000">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-6 col-md-6">
+							<div class="checkbox">
+								<label>
+									<input type="checkbox" id="show-position-code" value="true">Показать код позиции
+								</label>
+							</div>
+						</div>
+						<div class="col-sm-6 col-md-6">
+							<div class="checkbox">
+								<label>
+									<input type="checkbox" id="in-stock" value="true">Только в наличии сейчас
+								</label>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="container-fluid">
+		<div id="tree-goods">
+			{{{ data }}}
+		</div>
+	</div>
+</div>
