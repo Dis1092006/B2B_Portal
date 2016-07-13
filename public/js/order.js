@@ -13,6 +13,9 @@ function Order(number) {
 	this.total_count = 0;
 	this.total_amount = 0;
 	this.total_volume = 0;
+
+	// Обнулить в хранилище текущее состояние корзины.
+	//sessionStorage.setItem('basket', this.items);
 }
 
 // Проверка наличия позиций в заказе.
@@ -33,6 +36,34 @@ Order.prototype.getCurrentCity = function () {
 // Получить список элементов заказа.
 Order.prototype.getItems = function () {
 	return this.items;
+};
+
+// Восстановить список элементов заказа из сессионного хранилища.
+Order.prototype.restoreItems = function () {
+	console.log('Order.prototype.restoreItems');
+	var index, item;
+	if (sessionStorage.getItem('basket') !== null) {
+		// Загрузка списка элементов заказа из сессионного хранилища.
+		this.items = JSON.parse(sessionStorage.getItem('basket'));
+		console.log('Order.prototype.restoreItems this.items restored, this.items = ' + JSON.stringify(this.items));
+
+		// Пересчитать значения итоговых счётчиков.
+		this.total_count = 0;
+		this.total_amount = 0;
+		this.total_volume = 0;
+		for (index = 0; index < this.items.length; index = index + 1) {
+			item = this.items[index];
+			this.total_count += item.count;
+			this.total_amount += item.amount;
+			this.total_volume += (item.volume * item.count);
+		}
+	};
+};
+
+// Очистить список элементов заказа в сессионном хранилище.
+Order.prototype.clearItems = function () {
+	console.log('Order.prototype.clearItems');
+	sessionStorage.setItem('basket', null);
 };
 
 // Добавить товар в заказ.
@@ -76,6 +107,10 @@ Order.prototype.addItem = function (code, name, count, price, volume, preferred_
 		this.total_amount += item.amount;
 		this.total_volume += (item.volume * item.count);
 	}
+
+	// Сохранить текущее состояние корзины.
+	sessionStorage.setItem('basket', JSON.stringify(this.items));
+	console.log('Order.prototype.addItem');
 };
 
 // Удалить товар из заказа.
@@ -109,6 +144,9 @@ Order.prototype.deleteItem = function (code) {
 		this.total_amount += item.amount;
 		this.total_volume += (item.volume * item.count);
 	}
+
+	// Сохранить текущее состояние корзины.
+	sessionStorage.setItem('basket', JSON.stringify(this.items));
 };
 
 // Получить табличное представление заказа.

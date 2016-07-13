@@ -851,6 +851,7 @@ function onSuccessMakeOrder(data, status, req) {
 	if (result > 0) {
 		Order = require('./order');
 		current_order = new Order('');
+		current_order.clearItems();
 		current_order.setCurrentCity($("#select-city").find("option:selected").val());
 
 		updateBasket();
@@ -917,6 +918,10 @@ $(document).ready(function () {
 
 	Order = require('./order');
 	current_order = new Order("");
+	current_order.restoreItems();
+
+	// Обновить корзину (если нужно).
+	updateBasket();
 
 	WS = require('./ws');
 	ws = new WS();
@@ -981,6 +986,7 @@ $(document).ready(function () {
 
 		Order = require('./order');
 		current_order = new Order('');
+		current_order.clearItems();
 		updateBasket();
 
 		onChangedCity();
